@@ -1,0 +1,86 @@
+---
+title: "Migrating to Prisma v7 — What Changed and How to Fix It"
+summary: "Prisma v7 moved connection URLs out of schema.prisma into a new prisma.config.ts file. Here's exactly what to change."
+publishedAt: "2025-05-01"
+tags: ["Prisma", "PostgreSQL", "Full Stack"]
+featured: false
+draft: false
+---
+
+Prisma v7 shipped a breaking change that caught me off guard: **connection URLs no longer live in `schema.prisma`**. If you're upgrading an existing project or starting fresh with the latest CLI, here's exactly what to do.
+
+## What changed
+
+In Prisma v6 and earlier, your `schema.prisma` looked like this:
+
+```prisma
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+```
+
+In v7, the `url` and `directUrl` properties are no longer supported in schema files. You'll get this error:
+
+```
+Error: The datasource property `url` is no longer supported in schema files.
+```
+
+## The fix
+
+### 1. Update schema.prisma
+
+Remove the URL fields from your datasource block:
+
+```prisma
+datasource db {
+  provider = "postgresql"
+}
+```
+
+### 2. Create prisma.config.ts
+
+Create this file at your project root:
+
+```ts
+import path from "node:path";
+import { defineConfig } from "prisma/config";
+
+export default defineConfig({
+  earlyAccess: true,
+  schema: path.join("prisma", "schema.prisma"),
+  migrate: {
+    async adapter(env) {
+      const { PrismaPg } = await import("@prisma/adapter-pg");
+      return new PrismaPg({ connectionString: env.DATABASE_URL });
+    },
+  },
+});
+```
+
+### 3. Install the adapter
+
+```bash
+npm install @prisma/adapter-pg pg
+npm install -D @types/pg
+```
+
+### 4. Update your Prisma client
+
+```ts
+import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!
+});
+
+export const db = new PrismaClient({ adapter });
+```
+
+## That's it
+
+Run `npx prisma db push` and you're good. The schema itself doesn't change — just where the connection string lives.
+
+This pattern is actually cleaner because it separates infrastructure config from your data model. Once you get used to it, it makes sense.

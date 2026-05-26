@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  count     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("page_views")
+}
+
+model ContactMessage {
+  id        String               @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  honeypot  String?
+  status    ContactMessageStatus @default(UNREAD)
+  ipHash    String?
+  userAgent String?
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("contact_messages")
+}
+
+model BlogPostView {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  count     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([count])
+  @@map("blog_post_views")
+}
+
+model ProjectLike {
+  id          String   @id @default(cuid())
+  projectSlug String
+  sessionId   String
+  createdAt   DateTime @default(now())
+
+  @@unique([projectSlug, sessionId])
+  @@index([projectSlug])
+  @@map("project_likes")
+}
+
+model GuestbookEntry {
+  id        String               @id @default(cuid())
+  name      String
+  message   String               @db.VarChar(280)
+  emoji     String?              @db.VarChar(8)
+  status    GuestbookEntryStatus @default(PENDING)
+  createdAt DateTime             @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("guestbook_entries")
+}
+
+enum ContactMessageStatus {
+  UNREAD
+  READ
+  REPLIED
+  SPAM
+}
+
+enum GuestbookEntryStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}

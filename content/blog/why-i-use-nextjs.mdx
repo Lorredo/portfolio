@@ -1,0 +1,51 @@
+---
+title: "Why I Use Next.js for Every Project"
+summary: "After building dozens of projects, Next.js has become my go-to framework. Here's why — and when I'd reach for something else."
+publishedAt: "2025-03-10"
+tags: ["Next.js", "React", "Full Stack"]
+featured: true
+draft: false
+cover: "/blog/nextjs.png"
+---
+
+Next.js has been my default framework for the past two years. Whether I'm building a SaaS product, a landing page, or a personal tool — it's the first thing I reach for.
+
+Here's why.
+
+## The App Router changes everything
+
+The App Router introduced in Next.js 13 made a fundamental shift in how I think about data fetching. Server Components mean I can fetch data directly inside a component without any useEffect, loading state, or prop drilling.
+
+```tsx
+// This runs on the server — no useEffect, no loading state
+export default async function ProjectsPage() {
+  const projects = await db.project.findMany();
+  return <ProjectGrid projects={projects} />;
+}
+```
+
+The mental model is simpler: components are just async functions. Fetch what you need, return JSX.
+
+## Performance out of the box
+
+Static generation, incremental static regeneration, and edge rendering are all first-class features. I get a 90+ Lighthouse score without thinking about it.
+
+> "Make it work, make it right, make it fast" — the App Router makes all three easier.
+
+## When I'd reach for something else
+
+Next.js isn't perfect for everything:
+
+- **Pure API backend** — I'd use Fastify or Hono instead
+- **Highly interactive SPAs** — Vite + React is simpler and faster to develop
+- **Static sites with no JS** — Astro is the better call
+
+But for anything that needs a backend AND a frontend? Next.js wins every time.
+
+## The ecosystem
+
+The combination of Vercel deployment, shadcn/ui components, Prisma ORM, and Clerk auth means I can go from zero to a production-ready app in a weekend. That matters.
+
+---
+
+What's your go-to stack? I'm always curious how other developers approach this.
