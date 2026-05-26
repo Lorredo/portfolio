@@ -8,10 +8,10 @@ import Link from "next/link";
 
 const SKILLS = [
   { category: "Frontend",  items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "shadcn/ui"] },
-  { category: "Backend",   items: ["Node.js", "Express", "tRPC", "REST APIs", "GraphQL", "WebSockets"] },
+  { category: "Backend",   items: ["Node.js", "REST APIs", "WebSockets"] },
   { category: "Database",  items: ["PostgreSQL", "Prisma", "Redis", "Supabase", "MySQL"] },
-  { category: "DevOps",    items: ["Docker", "GitHub Actions", "Vercel", "AWS S3", "Railway"] },
-  { category: "Tools",     items: ["Git", "VS Code", "Figma", "Postman", "Linear", "Notion"] },
+  { category: "DevOps",    items: ["GitHub Actions", "Vercel", "AWS S3",] },
+  { category: "Tools",     items: ["Git", "VS Code", "Figma", "Postman",] },
 ];
 
 const VALUES = [
