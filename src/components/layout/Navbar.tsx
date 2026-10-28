@@ -1,21 +1,23 @@
-// components/layout/Navbar.tsx - Update the ThemeToggle component
+// components/layout/Navbar.tsx
 "use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-// import { useTheme } from "@/components/providers/ThemeProvider"; // Add this import
-// import { ThemeToggle } from "@/components/ui/ThemeToggle"; // Add this import
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 // ─── Nav Links ────────────────────────────────────────────────────
 
 const NAV_LINKS = [
-  { label: "Home",     href: "/"          },
-  { label: "Projects", href: "/projects"  },
-  { label: "Blog",     href: "/blog"      },
-  { label: "About",    href: "/about"     },
-  { label: "Contact",  href: "/contact"   },
+  { label: "Home",      href: "/"          },
+  { label: "Projects",  href: "/projects"  },
+  { label: "Blog",      href: "/blog"      },
+  { label: "About",     href: "/about"     },
+  { label: "Guestbook", href: "/guestbook" },
+  { label: "Uses",      href: "/uses"      },
+  { label: "Contact",   href: "/contact"   },
 ];
 
 
@@ -47,7 +49,7 @@ function MobileMenu({
           {/* Drawer */}
           <motion.div
             key="drawer"
-            className="fixed inset-x-4 top-20 z-50 rounded-2xl border border-white/10 bg-background p-6 shadow-2xl"
+            className="fixed inset-x-4 top-20 z-50 rounded-2xl border border-foreground/10 bg-background p-6 shadow-2xl"
             initial={{ opacity: 0, y: -16, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -16, scale: 0.97 }}
@@ -63,8 +65,8 @@ function MobileMenu({
                     onClick={onClose}
                     className={`rounded-xl px-4 py-3 text-base font-medium transition-colors ${
                       active
-                        ? "bg-white/8 text-foreground"
-                        : "text-foreground/50 hover:bg-white/5 hover:text-foreground"
+                        ? "bg-foreground/8 text-foreground"
+                        : "text-foreground/50 hover:bg-foreground/5 hover:text-foreground"
                     }`}
                   >
                     {link.label}
@@ -74,12 +76,12 @@ function MobileMenu({
             </nav>
 
             {/* Resume CTA inside mobile menu */}
-            <div className="mt-4 border-t border-white/8 pt-4">
+            <div className="mt-4 border-t border-foreground/8 pt-4">
               <a
                 href="/resume.pdf"
                 download
                 onClick={onClose}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-black transition-opacity hover:opacity-90"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-foreground px-4 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -102,7 +104,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   // Close menu on route change
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMenuOpen(false), [pathname]);
 
   // Add border + blur on scroll
@@ -117,7 +118,7 @@ export default function Navbar() {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "border-b border-white/8 bg-background/80 backdrop-blur-md"
+            ? "border-b border-foreground/8 bg-background/80 backdrop-blur-md"
             : "bg-transparent"
         }`}
       >
@@ -126,9 +127,25 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="font-mono text-sm font-semibold text-foreground transition-opacity hover:opacity-70"
+            className="flex items-center gap-2 font-mono text-sm font-semibold text-foreground transition-opacity hover:opacity-70"
           >
-            Artem<span className="text-emerald-400">.dev</span>
+            {/* Show black logo in light mode */}
+            <Image 
+              src="/logo-black.png" 
+              alt="AL Logo" 
+              width={28} 
+              height={28} 
+              className="dark:hidden" 
+            />
+            {/* Show white logo in dark mode */}
+            <Image 
+              src="/logo-white.png" 
+              alt="AL Logo" 
+              width={28} 
+              height={28} 
+              className="hidden dark:block" 
+            />
+            <span className="hidden sm:inline-block">Artem<span className="text-emerald-400">.dev</span></span>
           </Link>
 
           {/* Desktop nav */}
@@ -146,7 +163,7 @@ export default function Navbar() {
                   {active && (
                     <motion.span
                       layoutId="nav-pill"
-                      className="absolute inset-0 rounded-lg bg-white/8"
+                      className="absolute inset-0 rounded-lg bg-foreground/8"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                     />
                   )}
@@ -158,13 +175,13 @@ export default function Navbar() {
 
           {/* Right side actions */}
           <div className="flex items-center gap-2">
-            {/* <ThemeToggle /> */}
-
+            <ThemeToggle />
+            
             {/* Resume button — desktop only */}
             <a
               href="/resume.pdf"
               download
-              className="hidden items-center gap-1.5 rounded-lg border border-white/12 bg-white/5 px-3 py-1.5 text-xs font-medium text-foreground/60 transition-all hover:border-white/25 hover:bg-white/10 hover:text-foreground md:inline-flex"
+              className="hidden items-center gap-1.5 rounded-lg border border-foreground/12 bg-foreground/5 px-3 py-1.5 text-xs font-medium text-foreground/60 transition-all hover:border-foreground/25 hover:bg-foreground/10 hover:text-foreground md:inline-flex"
             >
               <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
                 <path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -176,7 +193,7 @@ export default function Navbar() {
             <button
               onClick={() => setMenuOpen((o) => !o)}
               aria-label="Toggle menu"
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-foreground/50 transition-all hover:border-white/25 hover:text-foreground md:hidden"
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-foreground/10 bg-foreground/5 text-foreground/50 transition-all hover:border-foreground/25 hover:text-foreground md:hidden"
             >
               <motion.div
                 animate={menuOpen ? "open" : "closed"}

@@ -36,7 +36,7 @@ export default function BlogCard({ post, index, views }: Props) {
       transition={{ delay: index * 0.05, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
     >
       <Link href={`/blog/${slug}`} className="group block">
-        <article className="rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-all duration-300 hover:border-white/16 hover:bg-white/[0.06]">
+        <article className="rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-6 transition-all duration-300 hover:border-foreground/16 hover:bg-foreground/[0.06]">
 
           {/* Top row — featured badge + tags */}
           <div className="mb-3 flex flex-wrap items-center gap-2">
@@ -48,7 +48,7 @@ export default function BlogCard({ post, index, views }: Props) {
             {frontmatter.tags.slice(0, 2).map((tag) => (
               <span
                 key={tag}
-                className="rounded-md border border-white/8 bg-white/4 px-2.5 py-0.5 text-[11px] font-medium text-white/40"
+                className="rounded-md border border-foreground/8 bg-foreground/4 px-2.5 py-0.5 text-[11px] font-medium text-foreground/40"
               >
                 {tag}
               </span>
@@ -56,21 +56,21 @@ export default function BlogCard({ post, index, views }: Props) {
           </div>
 
           {/* Title */}
-          <h2 className="mb-2 text-lg font-bold leading-snug text-white transition-colors group-hover:text-emerald-300">
+          <h2 className="mb-2 text-lg font-bold leading-snug text-foreground transition-colors group-hover:text-emerald-300">
             {frontmatter.title}
           </h2>
 
           {/* Summary */}
-          <p className="mb-4 text-sm leading-relaxed text-white/45">
+          <p className="mb-4 text-sm leading-relaxed text-foreground/45">
             {frontmatter.summary}
           </p>
 
           {/* Meta row */}
-          <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-white/28">
+          <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-foreground/28">
             <span>{formatDate(frontmatter.publishedAt)}</span>
-            <span className="h-1 w-1 rounded-full bg-white/20" />
+            <span className="h-1 w-1 rounded-full bg-foreground/20" />
             <span>{readingTime}</span>
-            <span className="h-1 w-1 rounded-full bg-white/20" />
+            <span className="h-1 w-1 rounded-full bg-foreground/20" />
             <span className="flex items-center gap-1">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path
@@ -82,7 +82,7 @@ export default function BlogCard({ post, index, views }: Props) {
               </svg>
               {formatViews(views)} views
             </span>
-            <span className="ml-auto text-white/35 transition-colors group-hover:text-emerald-400">
+            <span className="ml-auto text-foreground/35 transition-colors group-hover:text-emerald-400">
               Read →
             </span>
           </div>

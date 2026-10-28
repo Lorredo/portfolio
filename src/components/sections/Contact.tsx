@@ -22,10 +22,10 @@ const MAX_FILES     = 3;
 const MAX_FILE_SIZE = 5 * 1024 * 1024;  // 5MB
 
 const SOCIALS = [
-  { label: "GitHub",   href: "https://github.com/yourusername"      },
+  { label: "GitHub",   href: "https://github.com/Lorredo"      },
   { label: "LinkedIn", href: "https://linkedin.com/in/yourusername" },
   { label: "Twitter",  href: "https://twitter.com/yourusername"     },
-  { label: "Email",    href: "mailto:you@youremail.com"             },
+  { label: "Email",    href: "mailto:lorredoartemioiii@gmail.com"             },
 ];
 
 // ─── File Upload Zone ─────────────────────────────────────────────
@@ -73,9 +73,9 @@ function FileUploadZone({
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-xs font-medium text-white/40">
+      <label className="text-xs font-medium text-foreground/40">
         Attachments
-        <span className="ml-1 text-white/20">
+        <span className="ml-1 text-foreground/20">
           (optional — max {MAX_FILES} files, 5MB each)
         </span>
       </label>
@@ -89,7 +89,7 @@ function FileUploadZone({
         className={`relative cursor-pointer rounded-xl border-2 border-dashed px-4 py-6 text-center transition-all duration-200 ${
           dragging
             ? "border-emerald-500/60 bg-emerald-500/8"
-            : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
+            : "border-foreground/10 bg-foreground/[0.02] hover:border-foreground/20 hover:bg-foreground/[0.04]"
         } ${files.length >= MAX_FILES ? "pointer-events-none opacity-40" : ""}`}
       >
         <input
@@ -102,13 +102,13 @@ function FileUploadZone({
           className="hidden"
         />
         <div className="flex flex-col items-center gap-2">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-white/25">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-foreground/25">
             <path d="M10 3v10M6 7l4-4 4 4M3 14v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <p className="text-sm text-white/35">
+          <p className="text-sm text-foreground/35">
             {dragging ? "Drop files here" : "Drag & drop or click to upload"}
           </p>
-          <p className="text-xs text-white/20">
+          <p className="text-xs text-foreground/20">
             PDF, images, Word docs, text files
           </p>
         </div>
@@ -123,17 +123,17 @@ function FileUploadZone({
             animate={{ opacity: 1, height: "auto", y: 0 }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="flex items-center gap-3 rounded-xl border border-white/8 bg-white/[0.03] px-4 py-2.5"
+            className="flex items-center gap-3 rounded-xl border border-foreground/8 bg-foreground/[0.03] px-4 py-2.5"
           >
             <span className="text-base">{fileIcon(file.name)}</span>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm text-white/70">{file.name}</p>
-              <p className="text-xs text-white/25">{formatSize(file.size)}</p>
+              <p className="truncate text-sm text-foreground/70">{file.name}</p>
+              <p className="text-xs text-foreground/25">{formatSize(file.size)}</p>
             </div>
             <button
               type="button"
               onClick={() => onRemove(i)}
-              className="flex h-6 w-6 items-center justify-center rounded-md text-white/25 transition-colors hover:bg-white/8 hover:text-white/70"
+              className="flex h-6 w-6 items-center justify-center rounded-md text-foreground/25 transition-colors hover:bg-foreground/8 hover:text-foreground/70"
               aria-label="Remove file"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -215,10 +215,10 @@ export default function Contact() {
   };
 
   const inputClass =
-    "w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-all focus:border-emerald-500/50 focus:bg-white/8 focus:ring-1 focus:ring-emerald-500/30";
+    "w-full rounded-xl border border-foreground/10 bg-foreground/5 px-4 py-3 text-sm text-foreground placeholder-white/25 outline-none transition-all focus:border-emerald-500/50 focus:bg-foreground/8 focus:ring-1 focus:ring-emerald-500/30";
 
   return (
-    <section className="min-h-screen bg-[#080808] px-6 py-24 text-white">
+    <section className="min-h-screen bg-background px-6 py-24 text-foreground">
       <div className="mx-auto max-w-5xl">
 
         {/* Header */}
@@ -228,9 +228,9 @@ export default function Contact() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-white/30">Contact</p>
+          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">Contact</p>
           <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Get in touch</h1>
-          <p className="max-w-xl text-base leading-relaxed text-white/45">
+          <p className="max-w-xl text-base leading-relaxed text-foreground/45">
             I&apos;m open to freelance projects, full-time opportunities, and interesting conversations.
             Feel free to attach any briefs, specs, or design files.
           </p>
@@ -253,8 +253,8 @@ export default function Contact() {
                 <div className="flex h-14 w-14 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/10 text-2xl">
                   ✓
                 </div>
-                <h2 className="text-xl font-bold text-white">Message sent!</h2>
-                <p className="text-sm text-white/45">
+                <h2 className="text-xl font-bold text-foreground">Message sent!</h2>
+                <p className="text-sm text-foreground/45">
                   Thanks for reaching out. I&apos;ll get back to you within 24 hours.
                 </p>
                 <button
@@ -272,13 +272,13 @@ export default function Contact() {
                 {/* Name + Email */}
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-medium text-white/40">
+                    <label className="text-xs font-medium text-foreground/40">
                       Name <span className="text-emerald-500">*</span>
                     </label>
                     <input type="text" name="name" required value={form.name} onChange={handleChange} placeholder="Your name" className={inputClass}/>
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-medium text-white/40">
+                    <label className="text-xs font-medium text-foreground/40">
                       Email <span className="text-emerald-500">*</span>
                     </label>
                     <input type="email" name="email" required value={form.email} onChange={handleChange} placeholder="you@example.com" className={inputClass}/>
@@ -287,17 +287,17 @@ export default function Contact() {
 
                 {/* Subject */}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium text-white/40">Subject</label>
+                  <label className="text-xs font-medium text-foreground/40">Subject</label>
                   <input type="text" name="subject" value={form.subject} onChange={handleChange} placeholder="What's this about?" className={inputClass}/>
                 </div>
 
                 {/* Message */}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium text-white/40">
+                  <label className="text-xs font-medium text-foreground/40">
                     Message <span className="text-emerald-500">*</span>
                   </label>
                   <textarea name="message" required rows={5} value={form.message} onChange={handleChange} placeholder="Tell me about your project or opportunity..." className={`${inputClass} resize-none`}/>
-                  <span className="text-right text-xs text-white/20">{form.message.length} / 2000</span>
+                  <span className="text-right text-xs text-foreground/20">{form.message.length} / 2000</span>
                 </div>
 
                 {/* File upload */}
@@ -318,7 +318,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-black transition-all hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-foreground px-6 py-3 text-sm font-semibold text-background transition-all hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {status === "loading" ? (
                     <>
@@ -361,14 +361,14 @@ export default function Contact() {
                 </span>
                 <span className="text-sm font-medium text-emerald-400">Available for work</span>
               </div>
-              <p className="text-sm leading-relaxed text-white/45">
+              <p className="text-sm leading-relaxed text-foreground/45">
                 Open to freelance projects and full-time opportunities. Response time within 24 hours.
               </p>
             </div>
 
             {/* Socials */}
-            <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-5">
-              <p className="mb-4 font-mono text-xs uppercase tracking-widest text-white/30">Find me on</p>
+            <div className="rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-5">
+              <p className="mb-4 font-mono text-xs uppercase tracking-widest text-foreground/30">Find me on</p>
               <div className="flex flex-col gap-2">
                 {SOCIALS.map((s) => (
                   <a
@@ -376,31 +376,31 @@ export default function Contact() {
                     href={s.href}
                     target={s.href.startsWith("mailto") ? undefined : "_blank"}
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/45 transition-all hover:bg-white/5 hover:text-white"
+                    className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground/45 transition-all hover:bg-foreground/5 hover:text-foreground"
                   >
                     {s.label}
-                    <span className="ml-auto text-white/20">↗</span>
+                    <span className="ml-auto text-foreground/20">↗</span>
                   </a>
                 ))}
               </div>
             </div>
 
             {/* What to attach info box */}
-            <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-5">
-              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-white/30">Attachments</p>
-              <ul className="flex flex-col gap-2 text-sm text-white/40">
+            <div className="rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-5">
+              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-foreground/30">Attachments</p>
+              <ul className="flex flex-col gap-2 text-sm text-foreground/40">
                 <li className="flex items-center gap-2"><span>📄</span> Project briefs or specs</li>
                 <li className="flex items-center gap-2"><span>🖼️</span> Design mockups or wireframes</li>
                 <li className="flex items-center gap-2"><span>📝</span> Word docs or text files</li>
               </ul>
-              <p className="mt-3 text-xs text-white/25">Max 3 files · 5MB each · 10MB total</p>
+              <p className="mt-3 text-xs text-foreground/25">Max 3 files · 5MB each · 10MB total</p>
             </div>
 
             {/* Resume */}
             <a
               href="/resume.pdf"
               download="Resume.pdf"
-              className="flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/4 px-5 py-4 text-sm font-medium text-white/50 transition-all hover:border-white/22 hover:bg-white/8 hover:text-white"
+              className="flex items-center justify-center gap-2 rounded-2xl border border-foreground/10 bg-foreground/4 px-5 py-4 text-sm font-medium text-foreground/50 transition-all hover:border-foreground/22 hover:bg-foreground/8 hover:text-foreground"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

@@ -10,7 +10,7 @@ function StatusBadge({ status }: { status: Project["status"] }) {
   const map = {
     completed:   { label: "Completed",   classes: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" },
     "in-progress": { label: "In Progress", classes: "bg-amber-500/10  text-amber-400  border-amber-500/20"  },
-    archived:    { label: "Archived",    classes: "bg-white/5        text-white/30   border-white/10"       },
+    archived:    { label: "Archived",    classes: "bg-foreground/5        text-foreground/30   border-foreground/10"       },
   };
   const { label, classes } = map[status];
   return (
@@ -34,7 +34,7 @@ function ProjectCard({ project }: { project: Project }) {
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/8 bg-white/[0.03] transition-colors duration-300 hover:border-white/16 hover:bg-white/[0.06]"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-foreground/8 bg-foreground/[0.03] transition-colors duration-300 hover:border-foreground/16 hover:bg-foreground/[0.06]"
     >
       {/* Top accent line — animates in on hover */}
       <motion.div
@@ -55,15 +55,15 @@ function ProjectCard({ project }: { project: Project }) {
               </span>
             )}
           </div>
-          <span className="shrink-0 font-mono text-xs text-white/25">{project.year}</span>
+          <span className="shrink-0 font-mono text-xs text-foreground/25">{project.year}</span>
         </div>
 
         {/* Title + summary */}
         <div className="flex flex-col gap-2">
-          <h3 className="text-lg font-semibold leading-snug text-white transition-colors group-hover:text-emerald-300">
+          <h3 className="text-lg font-semibold leading-snug text-foreground transition-colors group-hover:text-emerald-300">
             {project.title}
           </h3>
-          <p className="text-sm leading-relaxed text-white/45">{project.summary}</p>
+          <p className="text-sm leading-relaxed text-foreground/45">{project.summary}</p>
         </div>
 
         {/* Tags */}
@@ -71,7 +71,7 @@ function ProjectCard({ project }: { project: Project }) {
           {project.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-md border border-white/8 bg-white/4 px-2 py-0.5 text-[11px] font-medium text-white/40"
+              className="rounded-md border border-foreground/8 bg-foreground/4 px-2 py-0.5 text-[11px] font-medium text-foreground/40"
             >
               {tag}
             </span>
@@ -83,13 +83,13 @@ function ProjectCard({ project }: { project: Project }) {
           {project.techStack.slice(0, 5).map((tech) => (
             <span
               key={tech}
-              className="font-mono text-[11px] text-white/25"
+              className="font-mono text-[11px] text-foreground/25"
             >
               {tech}{" "}
             </span>
           ))}
           {project.techStack.length > 5 && (
-            <span className="font-mono text-[11px] text-white/20">
+            <span className="font-mono text-[11px] text-foreground/20">
               +{project.techStack.length - 5} more
             </span>
           )}
@@ -97,10 +97,10 @@ function ProjectCard({ project }: { project: Project }) {
       </div>
 
       {/* Footer links */}
-      <div className="flex items-center gap-1 border-t border-white/6 px-6 py-3">
+      <div className="flex items-center gap-1 border-t border-foreground/6 px-6 py-3">
         <a
           href={`/projects/${project.slug}`}
-          className="flex-1 text-sm font-medium text-white/40 transition-colors hover:text-white"
+          className="flex-1 text-sm font-medium text-foreground/40 transition-colors hover:text-foreground"
         >
           View details →
         </a>
@@ -110,7 +110,7 @@ function ProjectCard({ project }: { project: Project }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className="rounded-lg p-2 text-white/25 transition-colors hover:bg-white/8 hover:text-white/70"
+            className="rounded-lg p-2 text-foreground/25 transition-colors hover:bg-foreground/8 hover:text-foreground/70"
           >
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
               <path
@@ -125,34 +125,8 @@ function ProjectCard({ project }: { project: Project }) {
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Live site"
-            className="rounded-lg p-2 text-white/25 transition-colors hover:bg-white/8 hover:text-white/70"
-          >
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path
-                d="M3 7.5h9M8.5 3.5l4 4-4 4M10.5 2.5h2v10h-2"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 2.5h6v10H2z"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
-        )}
-        {project.liveUrl && (
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
             aria-label="Open live site"
-            className="rounded-lg p-2 text-white/25 transition-colors hover:bg-white/8 hover:text-white/70"
+            className="rounded-lg p-2 text-foreground/25 transition-colors hover:bg-foreground/8 hover:text-foreground/70"
           >
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
               <path
@@ -194,14 +168,14 @@ function FilterBar({
             onClick={() => onChange(tag)}
             className={`relative inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200 ${
               isActive
-                ? "bg-white text-black"
-                : "border border-white/10 bg-white/4 text-white/50 hover:border-white/20 hover:bg-white/8 hover:text-white/80"
+                ? "bg-foreground text-background"
+                : "border border-foreground/10 bg-foreground/4 text-foreground/50 hover:border-foreground/20 hover:bg-foreground/8 hover:text-foreground/80"
             }`}
           >
             {tag}
             <span
               className={`rounded-full px-1.5 py-0.5 text-[10px] font-mono ${
-                isActive ? "bg-black/15 text-black/60" : "bg-white/8 text-white/30"
+                isActive ? "bg-black/15 text-background/60" : "bg-foreground/8 text-foreground/30"
               }`}
             >
               {count}
@@ -218,15 +192,34 @@ function FilterBar({
 export default function ProjectGrid() {
   const [activeTag, setActiveTag] = useState("All");
   const [showAll, setShowAll] = useState(false);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState<'newest' | 'oldest' | 'featured'>('newest');
 
   const filtered =
     activeTag === "All"
       ? projects
       : projects.filter((p) => p.tags.includes(activeTag));
 
+  let displayed = filtered;
+  if (search.trim()) {
+    const q = search.toLowerCase();
+    displayed = displayed.filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      p.summary.toLowerCase().includes(q) ||
+      p.tags.some(t => t.toLowerCase().includes(q))
+    );
+  }
+  if (sort === 'oldest') {
+    displayed = [...displayed].sort((a, b) => a.year - b.year);
+  } else if (sort === 'featured') {
+    displayed = [...displayed].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+  } else {
+    displayed = [...displayed].sort((a, b) => b.year - a.year);
+  }
+
   const INITIAL_COUNT = 6;
-  const visible = showAll ? filtered : filtered.slice(0, INITIAL_COUNT);
-  const hasMore = filtered.length > INITIAL_COUNT && !showAll;
+  const visible = showAll ? displayed : displayed.slice(0, INITIAL_COUNT);
+  const hasMore = displayed.length > INITIAL_COUNT && !showAll;
 
   const tagCounts = allTags.reduce<Record<string, number>>((acc, tag) => {
     acc[tag] = projects.filter((p) => p.tags.includes(tag)).length;
@@ -239,7 +232,7 @@ export default function ProjectGrid() {
   };
 
   return (
-    <section className="min-h-screen bg-[#080808] px-6 py-24 text-white">
+    <section className="min-h-screen bg-background px-6 py-24 text-foreground">
       <div className="mx-auto max-w-6xl">
 
         {/* Section header */}
@@ -249,18 +242,48 @@ export default function ProjectGrid() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/35">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-foreground/35">
             Work
           </p>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
               Projects
             </h2>
-            <p className="text-sm text-white/35">
-              {filtered.length} project{filtered.length !== 1 ? "s" : ""}
+            <p className="text-sm text-foreground/35">
+              {displayed.length} project{displayed.length !== 1 ? "s" : ""}
               {activeTag !== "All" && ` in ${activeTag}`}
             </p>
           </div>
+        </motion.div>
+
+        {/* Search and Sort */}
+        <motion.div
+          className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+        >
+          <div className="relative w-full max-w-sm">
+            <input
+              type="text"
+              placeholder="Search projects..."
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); setShowAll(false); }}
+              className="w-full rounded-xl border border-foreground/10 bg-foreground/5 px-4 py-2.5 text-sm text-foreground placeholder-white/25 outline-none transition-all focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30"
+            />
+            {search && (
+              <button onClick={() => { setSearch(''); setShowAll(false); }} className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/30 hover:text-foreground/70">✕</button>
+            )}
+          </div>
+          <select
+            value={sort}
+            onChange={(e) => { setSort(e.target.value as typeof sort); setShowAll(false); }}
+            className="rounded-xl border border-foreground/10 bg-foreground/5 px-3 py-2.5 text-sm text-foreground/60 outline-none cursor-pointer"
+          >
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="featured">Featured first</option>
+          </select>
         </motion.div>
 
         {/* Filter bar */}
@@ -290,9 +313,9 @@ export default function ProjectGrid() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="col-span-full py-20 text-center text-white/30"
+                className="col-span-full py-20 text-center text-foreground/30"
               >
-                No projects found for &quot;{activeTag}&quot;
+                {search ? `0 results for "${search}"` : `No projects found for "${activeTag}"`}
               </motion.div>
             )}
           </AnimatePresence>
@@ -308,9 +331,9 @@ export default function ProjectGrid() {
           >
             <button
               onClick={() => setShowAll(true)}
-              className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/4 px-6 py-3 text-sm font-medium text-white/50 transition-all hover:border-white/25 hover:bg-white/8 hover:text-white/90"
+              className="inline-flex items-center gap-2 rounded-xl border border-foreground/12 bg-foreground/4 px-6 py-3 text-sm font-medium text-foreground/50 transition-all hover:border-foreground/25 hover:bg-foreground/8 hover:text-foreground/90"
             >
-              Show {filtered.length - INITIAL_COUNT} more projects
+              Show {displayed.length - INITIAL_COUNT} more projects
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>

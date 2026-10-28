@@ -7,11 +7,11 @@ import Link from "next/link";
 // ─── Data ─────────────────────────────────────────────────────────
 
 const SKILLS = [
-  { category: "Frontend",  items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "shadcn/ui"] },
-  { category: "Backend",   items: ["Node.js", "REST APIs", "WebSockets"] },
+  { category: "Frontend",  items: ["Next.js", "React", "TypeScript", "Tailwind CSS"] },
+  { category: "Backend",   items: ["Go Lang, Node.js", "REST APIs", "WebSockets"] },
   { category: "Database",  items: ["PostgreSQL", "Prisma", "Redis", "Supabase", "MySQL"] },
-  { category: "DevOps",    items: ["GitHub Actions", "Vercel", "AWS S3",] },
-  { category: "Tools",     items: ["Git", "VS Code", "Figma", "Postman",] },
+  { category: "DevOps",    items: ["GitHub Actions", "Vercel", "AWS S3"] },
+  { category: "Tools",     items: ["Git", "VS Code", "Figma", "Postman", "Claude Code"] },
 ];
 
 const VALUES = [
@@ -62,33 +62,32 @@ function FadeIn({
 
 export default function About() {
   return (
-    <section className="min-h-screen bg-[#080808] px-6 py-24 text-white">
+    <section className="min-h-screen bg-background px-6 py-24 text-foreground">
       <div className="mx-auto max-w-3xl">
 
         {/* Header */}
         <FadeIn>
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-white/30">
+          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">
             About me
           </p>
           <h1 className="mb-8 text-4xl font-bold tracking-tight md:text-5xl">
-            Hey, I&apos;m Artemio III Lorredo 👋
+            Hey, I&apos;m Artem Lorredo 👋
           </h1>
         </FadeIn>
 
         {/* Bio */}
         <FadeIn delay={0.1}>
-          <div className="mb-14 flex flex-col gap-4 text-base leading-relaxed text-white/55">
+          <div className="mb-14 flex flex-col gap-4 text-base leading-relaxed text-foreground/55">
             <p>
-              I&apos;m a full stack developer based in Manila, Philippines, with 3+ years of experience
-              building web products from the database to the interface. I specialize in
-              <span className="text-white"> Next.js, TypeScript, and PostgreSQL</span> — the stack
+              I&apos;m a full stack developer based in Manila, Philippines, with 1+ years of experience
+              building web and app products from the database to the interface. I specialize in
+              <span className="text-foreground"> Go Lang, NextJS, Flutter, and PostgreSQL</span> — the stack
               that lets me move fast without cutting corners.
             </p>
             <p>
-              I started my career at a digital agency, learned the fundamentals the hard way
-              (FTP deploys and all), then moved into startups where I got to own entire products
-              end-to-end. These days I work as a senior full stack developer and take on freelance
-              projects that interest me.
+              I started my career at Bakawan Data Analytics, where I learned the fundamentals and got
+              to own entire products end-to-end. These days I work as a full stack developer,
+              building applications that I&apos;m passionate about.
             </p>
             <p>
               Outside of code I&apos;m into mechanical keyboards, specialty coffee, and occasionally
@@ -99,18 +98,18 @@ export default function About() {
 
         {/* Values */}
         <FadeIn delay={0.15}>
-          <p className="mb-6 font-mono text-xs uppercase tracking-[0.2em] text-white/30">
+          <p className="mb-6 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">
             How I work
           </p>
           <div className="mb-14 grid gap-4 sm:grid-cols-2">
             {VALUES.map((v) => (
               <div
                 key={v.title}
-                className="rounded-2xl border border-white/8 bg-white/[0.03] p-5 transition-colors hover:border-white/14 hover:bg-white/[0.05]"
+                className="rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-5 transition-colors hover:border-foreground/14 hover:bg-foreground/[0.05]"
               >
                 <div className="mb-2 text-2xl">{v.emoji}</div>
-                <h3 className="mb-1.5 font-semibold text-white">{v.title}</h3>
-                <p className="text-sm leading-relaxed text-white/45">{v.description}</p>
+                <h3 className="mb-1.5 font-semibold text-foreground">{v.title}</h3>
+                <p className="text-sm leading-relaxed text-foreground/45">{v.description}</p>
               </div>
             ))}
           </div>
@@ -118,20 +117,20 @@ export default function About() {
 
         {/* Skills */}
         <FadeIn delay={0.2}>
-          <p className="mb-6 font-mono text-xs uppercase tracking-[0.2em] text-white/30">
+          <p className="mb-6 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">
             Tech stack
           </p>
           <div className="mb-14 flex flex-col gap-5">
             {SKILLS.map((group) => (
               <div key={group.category} className="flex flex-col gap-2 sm:flex-row sm:gap-6">
-                <span className="w-24 shrink-0 text-sm font-medium text-white/35">
+                <span className="w-24 shrink-0 text-sm font-medium text-foreground/35">
                   {group.category}
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {group.items.map((item) => (
                     <span
                       key={item}
-                      className="rounded-md border border-white/8 bg-white/4 px-2.5 py-1 font-mono text-xs text-white/55 transition-colors hover:border-white/18 hover:text-white/85"
+                      className="rounded-md border border-foreground/8 bg-foreground/4 px-2.5 py-1 font-mono text-xs text-foreground/55 transition-colors hover:border-foreground/18 hover:text-foreground/85"
                     >
                       {item}
                     </span>
@@ -154,9 +153,9 @@ export default function About() {
                 Currently
               </span>
             </div>
-            <ul className="flex flex-col gap-2 text-sm text-white/55">
-              <li>🏢 Working as Senior Full Stack Developer at Acme Corp</li>
-              <li>🌱 Learning Rust and exploring WebAssembly</li>
+            <ul className="flex flex-col gap-2 text-sm text-foreground/55">
+              <li>🏢 Working as Application Developer at Bakawan Data Analytics Inc.</li>
+              <li>🌱 Learning Agentic AI</li>
               <li>📝 Writing about full stack development on this blog</li>
               <li>🔍 Open to interesting freelance projects</li>
             </ul>
@@ -168,7 +167,7 @@ export default function About() {
           <div className="flex flex-wrap items-center gap-4">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-black transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-xl bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
             >
               Get in touch
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -178,7 +177,7 @@ export default function About() {
             <a
               href="/resume.pdf"
               download
-              className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/4 px-6 py-3 text-sm font-medium text-white/55 transition-all hover:border-white/25 hover:bg-white/8 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-xl border border-foreground/12 bg-foreground/4 px-6 py-3 text-sm font-medium text-foreground/55 transition-all hover:border-foreground/25 hover:bg-foreground/8 hover:text-foreground"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -189,7 +188,7 @@ export default function About() {
               href="https://github.com/yourusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-white/30 transition-colors hover:text-white/70"
+              className="text-sm text-foreground/30 transition-colors hover:text-foreground/70"
             >
               GitHub ↗
             </a>
@@ -197,7 +196,7 @@ export default function About() {
               href="https://linkedin.com/in/yourusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-white/30 transition-colors hover:text-white/70"
+              className="text-sm text-foreground/30 transition-colors hover:text-foreground/70"
             >
               LinkedIn ↗
             </a>

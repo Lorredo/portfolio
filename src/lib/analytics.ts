@@ -68,7 +68,6 @@ export async function getBlogViews(slug: string): Promise<number> {
 }
 
 
-// lib/analytics.ts — add this function
 export async function getManyBlogViews(
   slugs: string[]
 ): Promise<Record<string, number>> {
@@ -127,4 +126,3 @@ export async function toggleProjectLike(
   const count = await db.projectLike.count({ where: { projectSlug } });
   return { liked: !existing, count };
 }
-

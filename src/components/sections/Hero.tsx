@@ -14,7 +14,6 @@ type Role = {
 
 const MotionLink = motion.create(Link);
 
-
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const ROLES: Role[] = [
@@ -25,11 +24,51 @@ const ROLES: Role[] = [
 ];
 
 const TECH_BADGES = [
-  "Next.js", "TypeScript", "React", "Node.js",
+  "Next.js", "TypeScript", "React", "Go Lang", "Node.js",
   "PostgreSQL", "Tailwind CSS", "Prisma", "Docker",
 ];
 
+const STATS = [
+  { target: 3,   suffix: "+", label: "Years experience" },
+  { target: 8,   suffix: "+", label: "Projects shipped" },
+  { target: 500, suffix: "+", label: "npm downloads"    },
+];
+
 // ─── Sub-components ──────────────────────────────────────────────────────────
+
+function AnimatedCounter({ target, suffix }: { target: number; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [started, setStarted] = useState(false);
+  const count = useSpring(0, { stiffness: 60, damping: 20 });
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setStarted(true); },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (started) count.set(target);
+  }, [started, target, count]);
+
+  useEffect(() =>
+    count.on("change", (v) => {
+      if (ref.current) ref.current.textContent = `${Math.round(v)}${suffix}`;
+    }),
+  [count, suffix]);
+
+  return (
+    <span ref={ref} className="text-2xl font-bold text-foreground">
+      0{suffix}
+    </span>
+  );
+}
+
 
 function OpenToWorkBadge() {
   return (
@@ -59,11 +98,15 @@ function RoleCycler() {
   }, []);
 
   return (
-    <span className="relative inline-block overflow-hidden align-bottom" style={{ height: "1.2em", minWidth: "320px" }}>
+    <span className="relative inline-block overflow-hidden align-bottom">
+      {/* Invisible spacer to set intrinsic width to the longest role */}
+      <span className="invisible whitespace-nowrap font-semibold">
+        Full Stack Developer
+      </span>
       {ROLES.map((role, i) => (
         <motion.span
           key={role.label}
-          className="absolute left-0 top-0 font-semibold"
+          className="absolute left-0 top-0 font-semibold whitespace-nowrap"
           style={{ color: role.color }}
           initial={{ y: "100%", opacity: 0 }}
           animate={
@@ -101,7 +144,7 @@ function TechBadges() {
             visible: { opacity: 1, scale: 1 },
           }}
           transition={{ duration: 0.35, ease: "backOut" }}
-          className="rounded-md border border-white/10 bg-white/5 px-3 py-1 text-xs font-mono text-white/60 transition-colors hover:border-white/25 hover:text-white/90"
+          className="rounded-md border border-foreground/10 bg-foreground/5 px-3 py-1 text-xs font-mono text-foreground/60 transition-colors hover:border-foreground/25 hover:text-foreground/90"
         >
           {tech}
         </motion.span>
@@ -140,17 +183,17 @@ function MagneticButton({
   };
 
   return (
-     <MotionLink
-           ref={ref}
-      href={href}        // ← now works as Next.js Link
+    <MotionLink
+      ref={ref}
+      href={href}
       style={{ x: springX, y: springY }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileTap={{ scale: 0.96 }}
       className={
         variant === "primary"
-          ? "inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-black transition-opacity hover:opacity-90"
-          : "inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-white/40 hover:bg-white/10"
+          ? "inline-flex items-center gap-2 rounded-xl bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+          : "inline-flex items-center gap-2 rounded-xl border border-foreground/20 bg-foreground/5 px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-foreground/40 hover:bg-foreground/10"
       }
     >
       {children}
@@ -190,7 +233,7 @@ function ScrollIndicator() {
       <motion.div
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-        className="flex flex-col items-center gap-2 text-white/30"
+        className="flex flex-col items-center gap-2 text-foreground/30"
       >
         <span className="text-xs font-mono tracking-widest uppercase">scroll</span>
         <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
@@ -210,7 +253,7 @@ function ScrollIndicator() {
 
 export default function Hero() {
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#080808] px-6 text-white">
+    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-6 text-foreground">
 
       {/* Background atmosphere */}
       <GridBackground />
@@ -233,20 +276,20 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="font-mono text-sm uppercase tracking-[0.2em] text-white/40">
-            Hi, Im
+          <p className="font-mono text-sm uppercase tracking-[0.2em] text-foreground/40">
+            Hi, I&apos;m
           </p>
           <h1 className="text-6xl font-bold leading-[1.05] tracking-tight md:text-7xl lg:text-8xl">
-            Artemio III Lorredo
+            Artem Lorredo
           </h1>
-          <h2 className="text-4xl font-light leading-snug text-white/50 md:text-5xl">
+          <h2 className="text-4xl font-light leading-snug text-foreground/50 md:text-5xl">
             <RoleCycler />
           </h2>
         </motion.div>
 
         {/* Bio */}
         <motion.p
-          className="max-w-2xl text-lg leading-relaxed text-white/50"
+          className="max-w-2xl text-lg leading-relaxed text-foreground/50"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
@@ -265,20 +308,20 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.1, duration: 0.5 }}
         >
-         <MagneticButton href="/projects" variant="primary">
-  View my work
-</MagneticButton>
+          <MagneticButton href="/projects" variant="primary">
+            View my work
+          </MagneticButton>
 
-<MagneticButton href="/contact" variant="secondary">
-  Get in touch
-</MagneticButton>
+          <MagneticButton href="/contact" variant="secondary">
+            Get in touch
+          </MagneticButton>
 
           <motion.a
             href="/resume.pdf"
             download
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.96 }}
-            className="inline-flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white/80"
+            className="inline-flex items-center gap-2 text-sm text-foreground/40 transition-colors hover:text-foreground/80"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -289,19 +332,15 @@ export default function Hero() {
 
         {/* Stats row */}
         <motion.div
-          className="flex flex-wrap gap-8 border-t border-white/10 pt-8"
+          className="flex flex-wrap gap-8 border-t border-foreground/10 pt-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.4, duration: 0.6 }}
         >
-          {[
-            { value: "3+", label: "Years experience" },
-            { value: "8+", label: "Projects shipped" },
-            { value: "500+", label: "npm downloads" },
-          ].map(({ value, label }) => (
+          {STATS.map(({ target, suffix, label }) => (
             <div key={label} className="flex flex-col gap-0.5">
-              <span className="text-2xl font-bold text-white">{value}</span>
-              <span className="text-sm text-white/40">{label}</span>
+              <AnimatedCounter target={target} suffix={suffix} />
+              <span className="text-sm text-foreground/40">{label}</span>
             </div>
           ))}
         </motion.div>

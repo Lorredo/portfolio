@@ -10,6 +10,9 @@ jobs:
     name: Deploy Production
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
     steps:
       - uses: actions/checkout@v4
@@ -24,22 +27,20 @@ jobs:
       - run: npx tsc --noEmit
       - run: npm run lint
 
+      # Build once, with the env vars from the Vercel dashboard, and ship that exact output
+      - name: Pull Vercel Environment
+        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Build
-        run: npm run build
+        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      # Runs only after a successful build, before the new code goes live
+      - name: Apply Database Migrations
+        run: npx prisma migrate deploy
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          CONTACT_EMAIL: ${{ secrets.CONTACT_EMAIL }}
 
       - name: Deploy to Vercel (Production)
         run: |
-          DEPLOY_URL=$(npx vercel deploy \
-            --token=${{ secrets.VERCEL_TOKEN }} \
-            --prod \
-            --yes \
-            2>&1 | tail -1)
+          DEPLOY_URL=$(npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
           echo "## ✅ Deployed: $DEPLOY_URL" >> $GITHUB_STEP_SUMMARY
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

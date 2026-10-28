@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { type Project } from "../../../content/projects";
 import LikeButton from "./LikeButton";
@@ -19,7 +18,7 @@ function StatusBadge({ status }: { status: Project["status"] }) {
     },
     archived: {
       label: "Archived",
-      classes: "bg-white/5 text-white/30 border-white/10",
+      classes: "bg-foreground/5 text-foreground/30 border-foreground/10",
     },
   };
 
@@ -39,8 +38,6 @@ type Props = {
 };
 
 export default function ProjectCard({ project }: Props) {
-  const [, setHovered] = useState(false);
-
   return (
     <motion.article
       layout
@@ -48,19 +45,17 @@ export default function ProjectCard({ project }: Props) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/8 bg-white/[0.03]"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-foreground/8 bg-foreground/[0.03]"
     >
       {/* Your ProjectCard content here */}
       <div className="p-6">
         <StatusBadge status={project.status} />
 
-        <h3 className="mt-4 text-lg font-semibold text-white">
+        <h3 className="mt-4 text-lg font-semibold text-foreground">
           {project.title}
         </h3>
         <LikeButton slug={project.slug} />
-        <p className="mt-2 text-sm text-white/45">
+        <p className="mt-2 text-sm text-foreground/45">
           {project.summary}
         </p>
       </div>

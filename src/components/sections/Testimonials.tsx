@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, } from "framer-motion";
+import { motion } from "framer-motion";
 
 // ─── Data ─────────────────────────────────────────────────────────
 
@@ -43,7 +43,6 @@ const TESTIMONIALS = [
     quote:
       "Mentored junior devs, improved our CI/CD pipeline, and shipped features faster than anyone else on the team. A developer who makes everyone around them better.",
   },
-  
 ];
 
 // ─── Star rating ──────────────────────────────────────────────────
@@ -77,8 +76,8 @@ function TestimonialCard({
       transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       className={`rounded-2xl border p-6 transition-colors ${
         active
-          ? "border-white/14 bg-white/[0.05]"
-          : "border-white/6 bg-white/[0.02]"
+          ? "border-foreground/14 bg-foreground/[0.05]"
+          : "border-foreground/6 bg-foreground/[0.02]"
       }`}
     >
       {/* Stars */}
@@ -87,18 +86,18 @@ function TestimonialCard({
       </div>
 
       {/* Quote */}
-      <blockquote className="mb-6 text-sm leading-relaxed text-white/60">
+      <blockquote className="mb-6 text-sm leading-relaxed text-foreground/60">
         &quot;{item.quote}&quot;
       </blockquote>
 
       {/* Author */}
       <div className="flex items-center gap-3">
-        <div className={`flex h-9 w-9 items-center justify-center rounded-full ${item.color} text-xs font-bold text-white`}>
+        <div className={`flex h-9 w-9 items-center justify-center rounded-full ${item.color} text-xs font-bold text-foreground`}>
           {item.avatar}
         </div>
         <div>
-          <p className="text-sm font-semibold text-white">{item.name}</p>
-          <p className="text-xs text-white/35">
+          <p className="text-sm font-semibold text-foreground">{item.name}</p>
+          <p className="text-xs text-foreground/35">
             {item.role} · {item.company}
           </p>
         </div>
@@ -113,7 +112,7 @@ export default function Testimonials() {
   const [active, setActive] = useState(0);
 
   return (
-    <section className="bg-[#080808] px-6 py-24 text-white">
+    <section className="bg-background px-6 py-24 text-foreground">
       <div className="mx-auto max-w-6xl">
 
         {/* Header */}
@@ -124,13 +123,13 @@ export default function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-white/30">
+          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">
             Social proof
           </p>
           <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
             What people say
           </h2>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-white/40">
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-foreground/40">
             Feedback from clients, colleagues, and teammates I&apos;ve worked with.
           </p>
         </motion.div>
@@ -155,7 +154,7 @@ export default function Testimonials() {
               key={i}
               onClick={() => setActive(i)}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                active === i ? "w-6 bg-white" : "w-1.5 bg-white/20"
+                active === i ? "w-6 bg-foreground" : "w-1.5 bg-foreground/20"
               }`}
               aria-label={`View testimonial ${i + 1}`}
             />

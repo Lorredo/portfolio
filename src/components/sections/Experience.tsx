@@ -145,13 +145,13 @@ function TimelineEntry({
               <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-emerald-400 bg-emerald-500" />
             </span>
           ) : (
-            <span className="flex h-3.5 w-3.5 rounded-full border-2 border-white/20 bg-[#080808]" />
+            <span className="flex h-3.5 w-3.5 rounded-full border-2 border-foreground/20 bg-background" />
           )}
         </motion.div>
 
         {!isLast && (
           <motion.div
-            className="mt-2 w-px flex-1 bg-white/8"
+            className="mt-2 w-px flex-1 bg-foreground/8"
             initial={{ scaleY: 0 }}
             animate={inView ? { scaleY: 1 } : {}}
             style={{ originY: 0 }}
@@ -167,13 +167,13 @@ function TimelineEntry({
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ delay: index * 0.1 + 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="group rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-white/14 hover:bg-white/[0.05]">
+        <div className="group rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-6 transition-colors hover:border-foreground/14 hover:bg-foreground/[0.05]">
 
           {/* Header */}
           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex flex-col gap-1.5">
               <div className="flex flex-wrap items-center gap-2">
-                <h3 className="text-lg font-bold text-white">{item.role}</h3>
+                <h3 className="text-lg font-bold text-foreground">{item.role}</h3>
                 {item.current && (
                   <span className="rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-400">
                     Current
@@ -186,21 +186,21 @@ function TimelineEntry({
                     href={item.companyUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium text-white/70 transition-colors hover:text-white"
+                    className="font-medium text-foreground/70 transition-colors hover:text-foreground"
                   >
                     {item.company} ↗
                   </a>
                 ) : (
-                  <span className="font-medium text-white/70">{item.company}</span>
+                  <span className="font-medium text-foreground/70">{item.company}</span>
                 )}
-                <span className="text-white/20">·</span>
+                <span className="text-foreground/20">·</span>
                 <TypeBadge type={item.type} />
               </div>
             </div>
 
             <div className="flex flex-col items-start gap-1 sm:items-end">
-              <span className="font-mono text-sm text-white/45">{item.period}</span>
-              <span className="flex items-center gap-1 text-xs text-white/28">
+              <span className="font-mono text-sm text-foreground/45">{item.period}</span>
+              <span className="flex items-center gap-1 text-xs text-foreground/28">
                 <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
                   <path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.625 3.5 6.5 3.5 6.5s3.5-3.875 3.5-6.5C9.5 2.567 7.933 1 6 1Z" stroke="currentColor" strokeWidth="1.2"/>
                   <circle cx="6" cy="4.5" r="1.2" stroke="currentColor" strokeWidth="1.1"/>
@@ -211,12 +211,12 @@ function TimelineEntry({
           </div>
 
           {/* Description */}
-          <p className="mb-4 text-sm leading-relaxed text-white/42">{item.description}</p>
+          <p className="mb-4 text-sm leading-relaxed text-foreground/42">{item.description}</p>
 
           {/* Highlights */}
           <ul className="mb-5 flex flex-col gap-2.5">
             {item.highlights.map((h, i) => (
-              <li key={i} className="flex gap-3 text-sm leading-relaxed text-white/55">
+              <li key={i} className="flex gap-3 text-sm leading-relaxed text-foreground/55">
                 <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-500/55" />
                 {h}
               </li>
@@ -224,11 +224,11 @@ function TimelineEntry({
           </ul>
 
           {/* Tech stack */}
-          <div className="flex flex-wrap gap-1.5 border-t border-white/6 pt-4">
+          <div className="flex flex-wrap gap-1.5 border-t border-foreground/6 pt-4">
             {item.techStack.map((tech) => (
               <span
                 key={tech}
-                className="rounded-md border border-white/8 bg-white/4 px-2.5 py-0.5 font-mono text-[11px] text-white/35 transition-colors hover:border-white/18 hover:text-white/65"
+                className="rounded-md border border-foreground/8 bg-foreground/4 px-2.5 py-0.5 font-mono text-[11px] text-foreground/35 transition-colors hover:border-foreground/18 hover:text-foreground/65"
               >
                 {tech}
               </span>
@@ -244,7 +244,7 @@ function TimelineEntry({
 
 export default function Experience() {
   return (
-    <section className="bg-[#080808] px-6 py-24 text-white">
+    <section className="bg-background px-6 py-24 text-foreground">
       <div className="mx-auto max-w-3xl">
 
         {/* Header */}
@@ -255,11 +255,11 @@ export default function Experience() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-white/30">
+          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">
             Career
           </p>
           <h2 className="text-4xl font-bold tracking-tight md:text-5xl">Experience</h2>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-white/40">
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-foreground/40">
             3+ years building products across startups, agencies, and as an independent developer.
           </p>
         </motion.div>
@@ -287,14 +287,14 @@ export default function Experience() {
           <a
             href="/resume.pdf"
             download
-            className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/4 px-5 py-2.5 text-sm font-medium text-white/50 transition-all hover:border-white/25 hover:bg-white/8 hover:text-white/90"
+            className="inline-flex items-center gap-2 rounded-xl border border-foreground/12 bg-foreground/4 px-5 py-2.5 text-sm font-medium text-foreground/50 transition-all hover:border-foreground/25 hover:bg-foreground/8 hover:text-foreground/90"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             Download full résumé
           </a>
-          <span className="text-sm text-white/20">PDF · Updated 2025</span>
+          <span className="text-sm text-foreground/20">PDF · Updated 2025</span>
         </motion.div>
 
       </div>

@@ -1,6 +1,6 @@
 // src/app/blog/[slug]/page.tsx
 import { notFound } from "next/navigation";
-import { getAllPostSlugs, getPostBySlug } from "@/lib/mdx";
+import { getAllPostSlugs, getPostBySlug, getAllPosts } from "@/lib/mdx";
 import { incrementBlogView, getBlogViews } from "@/lib/analytics";
 import PostContent from "@/components/blog/PostContent";
 
@@ -22,6 +22,13 @@ export async function generateMetadata({ params }: Props) {
       description: post.frontmatter.summary,
       type: "article",
       publishedTime: post.frontmatter.publishedAt,
+      images: [{ url: `/api/og?title=${encodeURIComponent(post.frontmatter.title)}`, width: 1200, height: 630, alt: post.frontmatter.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.frontmatter.title,
+      description: post.frontmatter.summary,
+      images: [`/api/og?title=${encodeURIComponent(post.frontmatter.title)}`],
     },
   };
 }
@@ -34,5 +41,10 @@ export default async function PostPage({ params }: Props) {
   await incrementBlogView(slug);
   const views = await getBlogViews(slug);
 
-  return <PostContent post={post} views={views} />;
+  const allPosts = getAllPosts();
+  const relatedPosts = allPosts
+    .filter(p => p.slug !== slug && p.frontmatter.tags.some(t => post.frontmatter.tags.includes(t)))
+    .slice(0, 3);
+
+  return <PostContent post={post} views={views} relatedPosts={relatedPosts} />;
 }

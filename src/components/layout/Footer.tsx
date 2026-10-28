@@ -7,11 +7,13 @@ import { useEffect, useState } from "react";
 // ─── Data ─────────────────────────────────────────────────────────
 
 const NAV_LINKS = [
-  { label: "Home",     href: "/"         },
-  { label: "Projects", href: "/projects" },
-  { label: "Blog",     href: "/blog"     },
-  { label: "About",    href: "/about"    },
-  { label: "Contact",  href: "/contact"  },
+  { label: "Home",      href: "/"          },
+  { label: "Projects",  href: "/projects"  },
+  { label: "Blog",      href: "/blog"      },
+  { label: "About",     href: "/about"     },
+  { label: "Guestbook", href: "/guestbook" },
+  { label: "Uses",      href: "/uses"      },
+  { label: "Contact",   href: "/contact"   },
 ];
 
 const SOCIAL_LINKS = [
@@ -36,7 +38,7 @@ function VisitorCount() {
   if (count === null) return null;
 
   return (
-    <span className="flex items-center gap-1.5 font-mono text-xs text-white/20">
+    <span className="flex items-center gap-1.5 font-mono text-xs text-foreground/20">
       <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
         <path d="M6 2C3.5 2 1.5 4 1.5 6s2 4 4.5 4 4.5-2 4.5-4-2-4-4.5-4Z" stroke="currentColor" strokeWidth="1.1"/>
         <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
@@ -52,7 +54,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/8 bg-[#080808] px-6 py-14 text-white">
+    <footer className="border-t border-foreground/8 bg-background px-6 py-14 text-foreground">
       <div className="mx-auto max-w-6xl">
 
         <div className="mb-10 grid gap-10 sm:grid-cols-[1fr_auto_auto]">
@@ -61,11 +63,11 @@ export default function Footer() {
           <div className="flex flex-col gap-4">
             <Link
               href="/"
-              className="font-mono text-sm font-semibold text-white transition-opacity hover:opacity-70"
+              className="font-mono text-sm font-semibold text-foreground transition-opacity hover:opacity-70"
             >
               artem<span className="text-emerald-400">.dev</span>
             </Link>
-            <p className="max-w-xs text-sm leading-relaxed text-white/35">
+            <p className="max-w-xs text-sm leading-relaxed text-foreground/35">
               Full stack developer building fast, accessible, and beautiful web products.
             </p>
             <VisitorCount />
@@ -73,14 +75,14 @@ export default function Footer() {
 
           {/* Nav links */}
           <div className="flex flex-col gap-3">
-            <p className="font-mono text-xs uppercase tracking-widest text-white/25">
+            <p className="font-mono text-xs uppercase tracking-widest text-foreground/25">
               Pages
             </p>
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-white/40 transition-colors hover:text-white/80"
+                className="text-sm text-foreground/40 transition-colors hover:text-foreground/80"
               >
                 {link.label}
               </Link>
@@ -89,7 +91,7 @@ export default function Footer() {
 
           {/* Social links */}
           <div className="flex flex-col gap-3">
-            <p className="font-mono text-xs uppercase tracking-widest text-white/25">
+            <p className="font-mono text-xs uppercase tracking-widest text-foreground/25">
               Connect
             </p>
             {SOCIAL_LINKS.map((link) => (
@@ -98,7 +100,7 @@ export default function Footer() {
                 href={link.href}
                 target={link.href.startsWith("mailto") ? undefined : "_blank"}
                 rel="noopener noreferrer"
-                className="text-sm text-white/40 transition-colors hover:text-white/80"
+                className="text-sm text-foreground/40 transition-colors hover:text-foreground/80"
               >
                 {link.label} ↗
               </a>
@@ -108,20 +110,20 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col items-start justify-between gap-3 border-t border-white/6 pt-6 sm:flex-row sm:items-center">
-          <p className="text-xs text-white/25">
-            © {year} Artemio III Lorredo Built with Next.js, Tailwind CSS, and Prisma.
+        <div className="flex flex-col items-start justify-between gap-3 border-t border-foreground/6 pt-6 sm:flex-row sm:items-center">
+          <p className="text-xs text-foreground/25">
+            © {year} Artem Lorredo — Built with Next.js, Tailwind CSS, and Prisma.
           </p>
           <div className="flex items-center gap-4">
             <a
               href="https://github.com/yourusername/portfolio"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-white/20 transition-colors hover:text-white/55"
+              className="text-xs text-foreground/20 transition-colors hover:text-foreground/55"
             >
               Source code ↗
             </a>
-            <span className="flex items-center gap-1.5 text-xs text-white/20">
+            <span className="flex items-center gap-1.5 text-xs text-foreground/20">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               All systems operational
             </span>

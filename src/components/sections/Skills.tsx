@@ -87,42 +87,6 @@ const BG_COLOR: Record<string, string> = {
   amber:   "bg-amber-500/8",
 };
 
-// ─── Skill Bar ────────────────────────────────────────────────────
-
-function SkillBar({
-  name,
-  level,
-  color,
-  index,
-}: {
-  name: string;
-  level: number;
-  color: string;
-  index: number;
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-white/65">{name}</span>
-        <span className="font-mono text-xs text-white/30">{level}%</span>
-      </div>
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/8">
-        <motion.div
-          className={`h-full rounded-full ${BAR_COLOR[color]}`}
-          initial={{ width: 0 }}
-          whileInView={{ width: `${level}%` }}
-          viewport={{ once: true }}
-          transition={{
-            delay: index * 0.07,
-            duration: 0.8,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
 // ─── Skill Card ───────────────────────────────────────────────────
 
 function SkillCard({
@@ -143,15 +107,14 @@ function SkillCard({
       <p className={`mb-5 font-mono text-xs font-semibold uppercase tracking-widest ${TEXT_COLOR[group.color]}`}>
         {group.category}
       </p>
-      <div className="flex flex-col gap-4">
-        {group.skills.map((skill, i) => (
-          <SkillBar
+      <div className="flex flex-wrap gap-2">
+        {group.skills.map((skill) => (
+          <span
             key={skill.name}
-            name={skill.name}
-            level={skill.level}
-            color={group.color}
-            index={i}
-          />
+            className={`rounded-lg border border-foreground/10 bg-foreground/5 px-3 py-1.5 text-sm font-medium text-foreground/80 transition-colors hover:border-foreground/25 hover:bg-foreground/10 hover:text-foreground`}
+          >
+            {skill.name}
+          </span>
         ))}
       </div>
     </motion.div>
@@ -162,7 +125,7 @@ function SkillCard({
 
 export default function Skills() {
   return (
-    <section className="bg-[#080808] px-6 py-24 text-white">
+    <section className="bg-background px-6 py-24 text-foreground">
       <div className="mx-auto max-w-6xl">
 
         {/* Header */}
@@ -173,12 +136,12 @@ export default function Skills() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-white/30">
+          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">
             Expertise
           </p>
           <h2 className="text-4xl font-bold tracking-tight md:text-5xl">Skills</h2>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-white/40">
-            Technologies I use daily and the rough proficiency level I&apos;d honestly rate myself at.
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-foreground/40">
+            A collection of technologies, frameworks, and tools I use to build modern digital products.
           </p>
         </motion.div>
 
@@ -196,14 +159,14 @@ export default function Skills() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-white/30">
+          <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">
             Tools I use
           </p>
           <div className="flex flex-wrap gap-2">
             {TOOLS.map((tool) => (
               <span
                 key={tool}
-                className="rounded-xl border border-white/8 bg-white/4 px-3 py-1.5 text-sm text-white/45 transition-colors hover:border-white/18 hover:text-white/75"
+                className="rounded-xl border border-foreground/8 bg-foreground/4 px-3 py-1.5 text-sm text-foreground/45 transition-colors hover:border-foreground/18 hover:text-foreground/75"
               >
                 {tool}
               </span>

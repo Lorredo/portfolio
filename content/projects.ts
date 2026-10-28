@@ -155,7 +155,7 @@ and deployed on Railway.`,
   },
   {
     slug: "finance-dashboard",
-    title: "Fintrack — Personal Finance Dashboard",
+    title: "Fintrack — Personal Finance System",
     summary:
       "A personal finance tracker that connects to bank accounts via Plaid, with AI-powered spending insights.",
     description: `Fintrack aggregates transactions from multiple bank accounts using the Plaid API 
@@ -175,7 +175,7 @@ Charts are built with Recharts and all sensitive data is encrypted at rest.`,
     ],
     status: "in-progress",
     year: 2025,
-    githubUrl: "https://github.com/yourusername/fintrack",
+    githubUrl: "https://github.com/Lorredo/fintrack.git",
     featured: false,
     coverImage: "/projects/fintrack.png",
   },
