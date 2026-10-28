@@ -1,17 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
+
+const emptySubscribe = () => () => {};
 
 export default function CursorGlow() {
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const isInteractiveDevice = useSyncExternalStore(
+    emptySubscribe,
+    () => !('ontouchstart' in window),
+    () => false
+  );
 
   useEffect(() => {
-    setMounted(true);
-    if (typeof window !== 'undefined' && 'ontouchstart' in window) {
-      setIsTouchDevice(true);
-      return;
-    }
+    if (!isInteractiveDevice) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       document.documentElement.style.setProperty('--cursor-x', `${e.clientX}px`);
@@ -20,9 +21,9 @@ export default function CursorGlow() {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [isInteractiveDevice]);
 
-  if (!mounted || isTouchDevice) return null;
+  if (!isInteractiveDevice) return null;
 
   return (
     <div

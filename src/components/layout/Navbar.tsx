@@ -100,11 +100,10 @@ function MobileMenu({
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [openMenuPath, setOpenMenuPath] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
 
-  // Close menu on route change
-  useEffect(() => setMenuOpen(false), [pathname]);
+  const menuOpen = openMenuPath === pathname;
 
   // Add border + blur on scroll
   useEffect(() => {
@@ -191,7 +190,7 @@ export default function Navbar() {
 
             {/* Hamburger — mobile only */}
             <button
-              onClick={() => setMenuOpen((o) => !o)}
+              onClick={() => setOpenMenuPath((prev) => (prev === pathname ? null : pathname))}
               aria-label="Toggle menu"
               className="flex h-8 w-8 items-center justify-center rounded-lg border border-foreground/10 bg-foreground/5 text-foreground/50 transition-all hover:border-foreground/25 hover:text-foreground md:hidden"
             >
@@ -224,7 +223,7 @@ export default function Navbar() {
       <MobileMenu
         open={menuOpen}
         pathname={pathname}
-        onClose={() => setMenuOpen(false)}
+        onClose={() => setOpenMenuPath(null)}
       />
     </>
   );

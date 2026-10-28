@@ -1,14 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useSyncExternalStore } from 'react';
+
+const emptySubscribe = () => () => {};
 
 export default function ShareButtons({ title, slug }: { title: string; slug: string }) {
-  const [url, setUrl] = useState('');
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    setUrl(typeof window !== 'undefined' ? window.location.href : `https://artem.dev/blog/${slug}`);
-  }, [slug]);
+  const url = useSyncExternalStore(
+    emptySubscribe,
+    () => window.location.href,
+    () => `https://artem.dev/blog/${slug}`
+  );
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(url);

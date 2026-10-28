@@ -19,8 +19,10 @@ export default function TableOfContents() {
       text: el.textContent || '',
       level: el.tagName === 'H3' ? 3 : 2
     }));
-    
-    setHeadings(parsedHeadings);
+
+    const frameId = requestAnimationFrame(() => {
+      setHeadings(parsedHeadings);
+    });
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -34,7 +36,10 @@ export default function TableOfContents() {
     );
 
     elements.forEach(el => observer.observe(el));
-    return () => observer.disconnect();
+    return () => {
+      cancelAnimationFrame(frameId);
+      observer.disconnect();
+    };
   }, []);
 
   if (headings.length < 2) return null;

@@ -59,13 +59,6 @@ const TOOLS = [
 
 // ─── Color maps ───────────────────────────────────────────────────
 
-const BAR_COLOR: Record<string, string> = {
-  emerald: "bg-emerald-500",
-  blue:    "bg-blue-500",
-  purple:  "bg-purple-500",
-  amber:   "bg-amber-500",
-};
-
 const BORDER_COLOR: Record<string, string> = {
   emerald: "border-emerald-500/20",
   blue:    "border-blue-500/20",

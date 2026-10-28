@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-// @ts-ignore
-import { featuredProjects } from '../../../content/projects';
+import { featuredProjects, type Project } from '../../../content/projects';
 
 export default function FeaturedProjects() {
   const container = {
@@ -26,7 +25,7 @@ export default function FeaturedProjects() {
           <div>
             <div className="font-mono text-xs uppercase tracking-[0.2em] text-foreground/30 mb-4">Work</div>
             <h2 className="text-3xl font-bold text-foreground mb-2">Featured Projects</h2>
-            <p className="text-foreground/60">A selection of things I've built.</p>
+            <p className="text-foreground/60">A selection of things I&apos;ve built.</p>
           </div>
           <Link href="/projects" className="text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors">
             View all projects &rarr;
@@ -40,7 +39,7 @@ export default function FeaturedProjects() {
           viewport={{ once: true, margin: "-50px" }}
           className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {featuredProjects.map((project: any) => (
+          {featuredProjects.map((project: Project) => (
             <motion.div variants={item} key={project.slug}>
               <Link 
                 href={`/projects/${project.slug}`}

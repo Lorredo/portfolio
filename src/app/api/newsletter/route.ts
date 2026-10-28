@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const newsletterSchema = z.object({
   email: z.string().email(),
 });
@@ -46,6 +44,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { email } = parsed.data;
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     // Send thank-you email to subscriber
     await resend.emails.send({

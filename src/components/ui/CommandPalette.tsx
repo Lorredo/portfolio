@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-// @ts-ignore
-import { projects } from '../../../content/projects';
+import { projects, type Project } from '../../../content/projects';
 
 type CommandItem = { category: string; label: string; href: string; description?: string };
 
@@ -24,7 +23,7 @@ export default function CommandPalette() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const router = useRouter();
 
-  const projectItems: CommandItem[] = (projects || []).map((p: any) => ({
+  const projectItems: CommandItem[] = (projects || []).map((p: Project) => ({
     category: 'Projects',
     label: p.title,
     href: `/projects/${p.slug}`,
@@ -49,10 +48,6 @@ export default function CommandPalette() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
-
-  useEffect(() => {
-    setSelectedIndex(0);
-  }, [query]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
@@ -96,7 +91,10 @@ export default function CommandPalette() {
                 className="w-full bg-transparent px-4 py-4 text-sm text-foreground placeholder-white/30 focus:outline-none"
                 placeholder="Type a command or search..."
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setSelectedIndex(0);
+                }}
                 onKeyDown={handleKeyDown}
               />
             </div>

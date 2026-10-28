@@ -3,8 +3,18 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-// Replace with actual Post import if available
-type Post = any;
+type Post = {
+  slug: string;
+  title?: string;
+  date?: string;
+  readingTime?: string;
+  tags?: string[];
+  frontmatter?: {
+    title?: string;
+    publishedAt?: string;
+    tags?: string[];
+  };
+};
 
 export default function LatestPosts({ posts }: { posts: Post[] }) {
   const container = {
@@ -46,6 +56,7 @@ export default function LatestPosts({ posts }: { posts: Post[] }) {
             const date = new Date(post.frontmatter?.publishedAt || post.date || new Date().toISOString()).toLocaleDateString('en-US', {
               month: 'short', day: 'numeric', year: 'numeric'
             });
+            const tags = post.frontmatter?.tags ?? post.tags;
 
             return (
               <motion.div variants={item} key={post.slug}>
@@ -68,9 +79,9 @@ export default function LatestPosts({ posts }: { posts: Post[] }) {
                     </div>
                   </div>
                   
-                  {(post.frontmatter?.tags || post.tags) && (post.frontmatter?.tags || post.tags).length > 0 && (
+                  {tags && tags.length > 0 && (
                     <div className="flex gap-2 sm:self-center">
-                      {(post.frontmatter?.tags || post.tags).slice(0, 2).map((tag: string) => (
+                      {tags.slice(0, 2).map((tag: string) => (
                         <span key={tag} className="text-xs text-foreground/30">#{tag}</span>
                       ))}
                     </div>

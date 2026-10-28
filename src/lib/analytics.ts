@@ -4,6 +4,10 @@
 
 import { db } from "@/lib/db";
 
+function isDbConfigured(): boolean {
+  return Boolean(process.env.DATABASE_URL || process.env.DIRECT_URL);
+}
+
 // ─── Page Views ───────────────────────────────────────────────────
 
 /**
@@ -12,11 +16,16 @@ import { db } from "@/lib/db";
  * Safe to call on every page render.
  */
 export async function incrementPageView(slug: string): Promise<void> {
-  await db.pageView.upsert({
-    where: { slug },
-    update: { count: { increment: 1 } },
-    create: { slug, count: 1 },
-  });
+  if (!isDbConfigured()) return;
+  try {
+    await db.pageView.upsert({
+      where: { slug },
+      update: { count: { increment: 1 } },
+      create: { slug, count: 1 },
+    });
+  } catch {
+    // Ignore analytics errors during static prerendering or transient DB issues
+  }
 }
 
 /**
@@ -24,8 +33,13 @@ export async function incrementPageView(slug: string): Promise<void> {
  * Returns 0 if the page has never been viewed.
  */
 export async function getPageViews(slug: string): Promise<number> {
-  const record = await db.pageView.findUnique({ where: { slug } });
-  return record?.count ?? 0;
+  if (!isDbConfigured()) return 0;
+  try {
+    const record = await db.pageView.findUnique({ where: { slug } });
+    return record?.count ?? 0;
+  } catch {
+    return 0;
+  }
 }
 
 /**
@@ -35,12 +49,17 @@ export async function getPageViews(slug: string): Promise<number> {
 export async function getManyPageViews(
   slugs: string[]
 ): Promise<Record<string, number>> {
-  const records = await db.pageView.findMany({
-    where: { slug: { in: slugs } },
-  });
   const map: Record<string, number> = {};
-  for (const r of records) map[r.slug] = r.count;
-  for (const s of slugs) if (!(s in map)) map[s] = 0;
+  for (const s of slugs) map[s] = 0;
+  if (!isDbConfigured()) return map;
+  try {
+    const records = await db.pageView.findMany({
+      where: { slug: { in: slugs } },
+    });
+    for (const r of records) map[r.slug] = r.count;
+  } catch {
+    // Return zeroed map on error
+  }
   return map;
 }
 
@@ -48,35 +67,55 @@ export async function getManyPageViews(
  * Get total views across all pages (for footer display).
  */
 export async function getTotalPageViews(): Promise<number> {
-  const result = await db.pageView.aggregate({ _sum: { count: true } });
-  return result._sum.count ?? 0;
+  if (!isDbConfigured()) return 0;
+  try {
+    const result = await db.pageView.aggregate({ _sum: { count: true } });
+    return result._sum.count ?? 0;
+  } catch {
+    return 0;
+  }
 }
 
 // ─── Blog Post Views ──────────────────────────────────────────────
 
 export async function incrementBlogView(slug: string): Promise<void> {
-  await db.blogPostView.upsert({
-    where: { slug },
-    update: { count: { increment: 1 } },
-    create: { slug, count: 1 },
-  });
+  if (!isDbConfigured()) return;
+  try {
+    await db.blogPostView.upsert({
+      where: { slug },
+      update: { count: { increment: 1 } },
+      create: { slug, count: 1 },
+    });
+  } catch {
+    // Ignore analytics errors during static prerendering or transient DB issues
+  }
 }
 
 export async function getBlogViews(slug: string): Promise<number> {
-  const record = await db.blogPostView.findUnique({ where: { slug } });
-  return record?.count ?? 0;
+  if (!isDbConfigured()) return 0;
+  try {
+    const record = await db.blogPostView.findUnique({ where: { slug } });
+    return record?.count ?? 0;
+  } catch {
+    return 0;
+  }
 }
 
 
 export async function getManyBlogViews(
   slugs: string[]
 ): Promise<Record<string, number>> {
-  const records = await db.blogPostView.findMany({
-    where: { slug: { in: slugs } },
-  });
   const map: Record<string, number> = {};
-  for (const r of records) map[r.slug] = r.count;
-  for (const s of slugs) if (!(s in map)) map[s] = 0;
+  for (const s of slugs) map[s] = 0;
+  if (!isDbConfigured()) return map;
+  try {
+    const records = await db.blogPostView.findMany({
+      where: { slug: { in: slugs } },
+    });
+    for (const r of records) map[r.slug] = r.count;
+  } catch {
+    // Return zeroed map on error
+  }
   return map;
 }
 
@@ -85,26 +124,41 @@ export async function getManyBlogViews(
  * Useful for a "Popular posts" sidebar.
  */
 export async function getTopBlogPosts(limit = 5) {
-  return db.blogPostView.findMany({
-    orderBy: { count: "desc" },
-    take: limit,
-  });
+  if (!isDbConfigured()) return [];
+  try {
+    return await db.blogPostView.findMany({
+      orderBy: { count: "desc" },
+      take: limit,
+    });
+  } catch {
+    return [];
+  }
 }
 
 // ─── Project Likes ────────────────────────────────────────────────
 
 export async function getProjectLikes(projectSlug: string): Promise<number> {
-  return db.projectLike.count({ where: { projectSlug } });
+  if (!isDbConfigured()) return 0;
+  try {
+    return await db.projectLike.count({ where: { projectSlug } });
+  } catch {
+    return 0;
+  }
 }
 
 export async function hasLikedProject(
   projectSlug: string,
   sessionId: string
 ): Promise<boolean> {
-  const like = await db.projectLike.findUnique({
-    where: { projectSlug_sessionId: { projectSlug, sessionId } },
-  });
-  return !!like;
+  if (!isDbConfigured()) return false;
+  try {
+    const like = await db.projectLike.findUnique({
+      where: { projectSlug_sessionId: { projectSlug, sessionId } },
+    });
+    return !!like;
+  } catch {
+    return false;
+  }
 }
 
 export async function toggleProjectLike(

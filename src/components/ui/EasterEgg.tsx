@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const KONAMI_CODE = [
@@ -10,20 +10,19 @@ const KONAMI_CODE = [
 ];
 
 export default function EasterEgg() {
-  const [inputBuffer, setInputBuffer] = useState<string[]>([]);
+  const inputBufferRef = useRef<string[]>([]);
   const [showEgg, setShowEgg] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const key = e.key;
-      setInputBuffer((prev) => {
-        const newBuffer = [...prev, key].slice(-KONAMI_CODE.length);
-        if (newBuffer.join(',') === KONAMI_CODE.join(',')) {
-          setShowEgg(true);
-          return [];
-        }
-        return newBuffer;
-      });
+      const newBuffer = [...inputBufferRef.current, key].slice(-KONAMI_CODE.length);
+      if (newBuffer.join(',') === KONAMI_CODE.join(',')) {
+        inputBufferRef.current = [];
+        setShowEgg(true);
+      } else {
+        inputBufferRef.current = newBuffer;
+      }
       if (e.key === 'Escape' && showEgg) {
         setShowEgg(false);
       }

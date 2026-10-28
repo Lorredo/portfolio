@@ -7,8 +7,6 @@ import { Resend } from "resend";
 import { db } from "@/lib/db";
 import crypto from "crypto";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // ─── Validation ───────────────────────────────────────────────────
 
 const contactSchema = z.object({
@@ -154,6 +152,7 @@ export async function POST(req: NextRequest) {
         : "";
 
     // Send email with attachments
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from:    "Portfolio Contact <onboarding@resend.dev>",
       to:      process.env.CONTACT_EMAIL!,

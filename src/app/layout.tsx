@@ -13,6 +13,7 @@ import "./globals.css";
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://artem.dev"),
   title: "Artem Lorredo — Full Stack Developer",
   description: "Full stack developer building fast, accessible web products.",
 };
