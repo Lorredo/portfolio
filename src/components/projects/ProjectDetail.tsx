@@ -6,6 +6,7 @@ import Link from "next/link";
 import { projects, type Project } from "../../../content/projects";
 import ProjectCard from "./ProjectCard";
 import LikeButton from "./LikeButton";
+import { DemoVideo, isMobileProject, PlatformBadge, ScreenGallery, StoreLinks } from "./MobileShowcase";
 
 // ─── Sub-components ───────────────────────────────────────────────
 
@@ -86,6 +87,7 @@ export default function ProjectDetail({ project, views }: { project: Project; vi
     .slice(0, 3);
 
   const gradient = getProjectGradient(project.tags);
+  const isMobile = isMobileProject(project);
 
   return (
     <article className="min-h-screen bg-background px-6 py-24 text-foreground">
@@ -110,6 +112,7 @@ export default function ProjectDetail({ project, views }: { project: Project; vi
             {/* Badges row */}
             <div className="mb-4 flex flex-wrap items-center gap-3">
               <StatusDot status={project.status} />
+              <PlatformBadge platform={project.platform} />
               {project.featured && (
                 <span className="rounded-full border border-purple-500/20 bg-purple-500/10 px-2.5 py-0.5 text-xs font-medium text-purple-400">
                   ★ Featured
@@ -142,16 +145,22 @@ export default function ProjectDetail({ project, views }: { project: Project; vi
           </div>
         </FadeIn>
 
-        {/* Cover image placeholder */}
+        {/* Cover — phone screens for mobile apps, placeholder otherwise */}
         <FadeIn delay={0.1}>
-          <div className="mb-12 overflow-hidden rounded-2xl border border-foreground/8">
-            <div className={`flex h-64 items-center justify-center bg-gradient-to-br ${gradient.from} ${gradient.to} md:h-80`}>
-              <div className="flex flex-col items-center gap-3">
-                <p className="font-mono text-5xl font-bold text-foreground/15">{project.title.slice(0, 2).toUpperCase()}</p>
-                <p className="font-mono text-xs text-foreground/20 uppercase tracking-widest">{project.year}</p>
+          {project.screens?.length ? (
+            <div className="mb-12">
+              <ScreenGallery project={project} />
+            </div>
+          ) : (
+            <div className="mb-12 overflow-hidden rounded-2xl border border-foreground/8">
+              <div className={`flex h-64 items-center justify-center bg-gradient-to-br ${gradient.from} ${gradient.to} md:h-80`}>
+                <div className="flex flex-col items-center gap-3">
+                  <p className="font-mono text-5xl font-bold text-foreground/15">{project.title.slice(0, 2).toUpperCase()}</p>
+                  <p className="font-mono text-xs text-foreground/20 uppercase tracking-widest">{project.year}</p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </FadeIn>
 
         {/* Main content grid */}
@@ -170,6 +179,29 @@ export default function ProjectDetail({ project, views }: { project: Project; vi
                   </p>
                 </div>
               </div>
+
+              {/* Demo video */}
+              {project.demoVideo && (
+                <div>
+                  <SectionLabel>Demo</SectionLabel>
+                  <DemoVideo project={project} />
+                </div>
+              )}
+
+              {/* Highlights */}
+              {project.highlights?.length ? (
+                <div>
+                  <SectionLabel>Key features</SectionLabel>
+                  <ul className="flex flex-col gap-2.5 rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-6">
+                    {project.highlights.map((item) => (
+                      <li key={item} className="flex gap-3 text-sm leading-relaxed text-foreground/55">
+                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-emerald-400" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
 
               {/* Tech stack */}
               <div>
@@ -192,7 +224,9 @@ export default function ProjectDetail({ project, views }: { project: Project; vi
               <div className="rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-5">
                 <SectionLabel>Links</SectionLabel>
                 <div className="flex flex-col gap-2">
-                  {project.liveUrl ? (
+                  {isMobile ? (
+                    <StoreLinks project={project} />
+                  ) : project.liveUrl ? (
                     <a
                       href={project.liveUrl}
                       target="_blank"
@@ -261,6 +295,12 @@ export default function ProjectDetail({ project, views }: { project: Project; vi
                       {project.tags[0]}
                     </dd>
                   </div>
+                  {isMobile && (
+                    <div className="flex items-center justify-between">
+                      <dt className="text-xs text-foreground/30">Platform</dt>
+                      <dd><PlatformBadge platform={project.platform} /></dd>
+                    </div>
+                  )}
                   <div className="flex items-start justify-between gap-4">
                     <dt className="text-xs text-foreground/30">Stack</dt>
                     <dd className="text-right font-mono text-xs text-foreground/60">

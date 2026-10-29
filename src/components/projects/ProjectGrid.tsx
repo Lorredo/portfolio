@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { projects, allTags, type Project } from "../../../content/projects";
+import { PlatformBadge } from "./MobileShowcase";
 
 // ─── Status Badge ─────────────────────────────────────────────────────────────
 
@@ -49,6 +50,7 @@ function ProjectCard({ project }: { project: Project }) {
         <div className="flex items-start justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <StatusBadge status={project.status} />
+            <PlatformBadge platform={project.platform} />
             {project.featured && (
               <span className="inline-flex items-center gap-1 rounded-full border border-purple-500/20 bg-purple-500/10 px-2.5 py-0.5 text-[11px] font-medium text-purple-400">
                 ★ Featured
