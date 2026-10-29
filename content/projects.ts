@@ -25,6 +25,7 @@ export type Project = {
   platform?: ProjectPlatform; // defaults to "web"
   appStoreUrl?: string;
   playStoreUrl?: string;
+  apk?: { url: string; version: string; size: string }; // sideloadable Android build, e.g. a GitHub Release asset
   demoVideo?: string; // 16:9 walkthrough under /public/projects/ — coverImage is used as the poster
   screens?: AppScreen[];
   highlights?: string[];
@@ -199,6 +200,11 @@ I built it solo — design, mobile, backend, database and deployment. The Go bac
     featured: true,
     coverImage: "/projects/fintrack/cover.png",
     platform: "cross-platform",
+    apk: {
+      url: "https://github.com/Lorredo/fintrack/releases/download/v1.0.0/fintrack-1.0.0-release.apk",
+      version: "1.0.0",
+      size: "45 MB",
+    },
     demoVideo: "/projects/fintrack/demo.mp4",
     screens: [
       { label: "Dashboard", src: "/projects/fintrack/dashboard.png" },
