@@ -57,13 +57,13 @@ function PlaceholderScreen({ label }: { label: string }) {
 export function PhoneMockup({ screen }: { screen: AppScreen }) {
   return (
     <figure className="flex shrink-0 snap-center flex-col items-center gap-3">
-      <div className="relative aspect-[9/20] w-40 overflow-hidden rounded-[1.75rem] border-[5px] border-foreground/15 bg-background shadow-2xl shadow-black/30 sm:w-44">
+      <div className="relative aspect-[1080/2424] w-36 overflow-hidden rounded-[1.6rem] border-[5px] border-foreground/15 bg-background shadow-2xl shadow-black/30 sm:w-38">
         {screen.src ? (
           <Image
             src={screen.src}
             alt={`${screen.label} screen`}
             fill
-            sizes="176px"
+            sizes="152px"
             className="object-cover"
           />
         ) : (
@@ -85,10 +85,13 @@ export function ScreenGallery({ project }: { project: Project }) {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-foreground/8 bg-gradient-to-br from-emerald-900/20 to-teal-900/10">
-      <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto px-8 py-10 lg:justify-center">
-        {screens.map((screen) => (
-          <PhoneMockup key={screen.label} screen={screen} />
-        ))}
+      {/* w-max + mx-auto centers the row when it fits, and scrolls from the first phone when it doesn't */}
+      <div className="snap-x snap-mandatory overflow-x-auto scroll-px-6">
+        <div className="mx-auto flex w-max gap-4 px-6 py-10">
+          {screens.map((screen) => (
+            <PhoneMockup key={screen.label} screen={screen} />
+          ))}
+        </div>
       </div>
     </div>
   );

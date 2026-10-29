@@ -173,16 +173,10 @@ and deployed on Railway.`,
     title: "FinTrack — Personal Finance & Budget Tracker",
     summary:
       "A full-stack mobile app for tracking spending, budgets and accounts, with PIN and biometric security.",
-    description: `FinTrack is a cross-platform personal finance app. Users track income, expenses
-and transfers across multiple accounts, set budgets per category over flexible periods,
-and see trends in reports. It's a monorepo with a React Native (Expo) client and a
-Go REST API backed by serverless PostgreSQL on Neon, deployed in Docker on Render.
+    // One line per paragraph: the detail page renders newlines as line breaks
+    description: `FinTrack is a cross-platform personal finance app. Users track income, expenses and transfers across multiple accounts, set budgets per category over flexible periods, and see trends in reports. It's a monorepo with a React Native (Expo) client and a Go REST API backed by serverless PostgreSQL on Neon, deployed in Docker on Render.
 
-I built it solo — design, mobile, backend, database and deployment. The Go backend is
-layered (routes → handlers → services → database) with JWT middleware and centralized
-validation; the mobile app uses a feature-based structure, a custom design system and a
-React Query data layer with central error handling. Schema changes ship as versioned
-migrations that backfill existing data.`,
+I built it solo — design, mobile, backend, database and deployment. The Go backend is layered (routes → handlers → services → database) with JWT middleware and centralized validation; the mobile app uses a feature-based structure, a custom design system and a React Query data layer with central error handling. Schema changes ship as versioned migrations that backfill existing data.`,
     tags: ["Mobile", "Full Stack", "Finance"],
     techStack: [
       "React Native",
