@@ -74,9 +74,15 @@ I built it solo: design, mobile, backend, database and deployment. It's a monore
     demoVideo: "/projects/fintrack/demo.mp4",
     screens: [
       { label: "Dashboard", src: "/projects/fintrack/dashboard.png" },
+      { label: "Safe to Spend", src: "/projects/fintrack/safe-to-spend.png" },
+      { label: "Bills", src: "/projects/fintrack/bills.png" },
+      { label: "Utang", src: "/projects/fintrack/utang.png" },
+      { label: "Paluwagan", src: "/projects/fintrack/paluwagan-details.png" },
       { label: "Budgets", src: "/projects/fintrack/budgets.png" },
       { label: "Transactions", src: "/projects/fintrack/transactions.png" },
       { label: "Reports", src: "/projects/fintrack/reports.png" },
+      { label: "Receipt Scan", src: "/projects/fintrack/scan-receipt.png" },
+      { label: "Offline", src: "/projects/fintrack/offline.png" },
       { label: "PIN Lock", src: "/projects/fintrack/pin-lock.png" },
     ],
     highlights: [
