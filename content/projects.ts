@@ -36,11 +36,13 @@ export const projects: Project[] = [
     slug: "fintrack",
     title: "FinTrack — Personal Finance & Budget Tracker",
     summary:
-      "A full-stack mobile app for tracking spending, budgets and accounts, with PIN and biometric security.",
+      "A full-stack mobile finance app for Filipino earners: Safe to Spend until payday, bills, utang and paluwagan, receipt scanning, and offline saving.",
     // One line per paragraph: the detail page renders newlines as line breaks
-    description: `FinTrack is a cross-platform personal finance app. Users track income, expenses and transfers across multiple accounts, set budgets per category over flexible periods, and see trends in reports. It's a monorepo with a React Native (Expo) client and a Go REST API backed by serverless PostgreSQL on Neon, deployed in Docker on Render.
+    description: `FinTrack is a personal finance app built around how pay works in the Philippines. It tracks income, expenses and transfers across wallets like GCash, Maya and bank accounts, and works out how much is Safe to Spend each day until the next 15th or 30th payday: from your salary and allowances, minus bills, savings and what you've already spent, never more than your wallets hold.
 
-I built it solo — design, mobile, backend, database and deployment. The Go backend is layered (routes → handlers → services → database) with JWT middleware and centralized validation; the mobile app uses a feature-based structure, a custom design system and a React Query data layer with central error handling. Schema changes ship as versioned migrations that backfill existing data.`,
+It also handles recurring bills with reminders, one-tap salary and allowance recording on payday, utang (money lent and borrowed) and paluwagan rounds, category budgets and PDF/Excel reports. Receipt screenshots from GCash, Maya or a bank are read on the phone with ML Kit to fill in a transaction, and changes made without signal are saved on the phone and synced later.
+
+I built it solo: design, mobile, backend, database and deployment. It's a monorepo with a React Native (Expo) client and a Go REST API on serverless PostgreSQL (Neon), deployed in Docker on Render. The backend is layered (routes → handlers → services → database) with JWT middleware, validation and integration tests against a real database; the app uses a feature-based structure, a custom design system and a TanStack Query data layer with an encrypted offline cache.`,
     tags: ["Mobile", "Full Stack", "Finance"],
     techStack: [
       "React Native",
@@ -55,7 +57,8 @@ I built it solo — design, mobile, backend, database and deployment. The Go bac
       "Neon",
       "Docker",
       "Render",
-      "Expo EAS",
+      "ML Kit",
+      "MMKV",
     ],
     status: "in-progress",
     year: 2026,
@@ -64,8 +67,8 @@ I built it solo — design, mobile, backend, database and deployment. The Go bac
     coverImage: "/projects/fintrack/cover.png",
     platform: "cross-platform",
     apk: {
-      url: "https://github.com/Lorredo/fintrack/releases/download/v1.5.0/fintrack-1.5.0-release.apk",
-      version: "1.5.0",
+      url: "https://github.com/Lorredo/fintrack/releases/download/v1.6.0/fintrack-1.6.0-release.apk",
+      version: "1.6.0",
       size: "47 MB",
     },
     demoVideo: "/projects/fintrack/demo.mp4",
@@ -77,12 +80,13 @@ I built it solo — design, mobile, backend, database and deployment. The Go bac
       { label: "PIN Lock", src: "/projects/fintrack/pin-lock.png" },
     ],
     highlights: [
-      "Multi-account ledger with transfers between cash, bank and other accounts",
-      "Flexible category budgets with atomic rebalancing in a single database transaction",
-      "Monthly trends, period-over-period category comparison and CSV export",
-      "JWT access/refresh tokens, Google & Apple sign-in, PIN lock and biometric unlock",
-      "Android home-screen widget showing remaining budget, synced via MMKV",
-      "11 versioned migrations with data backfills and composite indexes",
+      "Safe to Spend per day until payday, planned from salary and allowances and capped by real wallet balances",
+      "Offline saving: an encrypted outbox syncs changes in order, and phone-generated ids make retries safe",
+      "On-device receipt scanning with ML Kit: share a GCash, Maya or bank screenshot to fill in a transaction",
+      "Recurring bills, payday Record pay, utang and paluwagan tracking, all with local reminders",
+      "Multi-wallet ledger with transfers and fees, category budgets with atomic rebalancing, PDF and Excel reports",
+      "Google sign-in, JWT refresh-token rotation, PIN lock with biometrics, and an encrypted local store",
+      "Android home-screen widget, and 18 versioned PostgreSQL migrations with data backfills",
     ],
   },
 ];
