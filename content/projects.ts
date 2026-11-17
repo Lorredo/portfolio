@@ -67,8 +67,8 @@ I built it solo: design, mobile, backend, database and deployment. It's a monore
     coverImage: "/projects/fintrack/cover.png",
     platform: "cross-platform",
     apk: {
-      url: "https://github.com/Lorredo/fintrack/releases/download/v1.6.0/fintrack-1.6.0-release.apk",
-      version: "1.6.0",
+      url: "https://github.com/Lorredo/fintrack/releases/download/v1.6.1/fintrack-1.6.1-release.apk",
+      version: "1.6.1",
       size: "47 MB",
     },
     demoVideo: "/projects/fintrack/demo.mp4",
