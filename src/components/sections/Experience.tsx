@@ -22,71 +22,38 @@ export type ExperienceItem = {
 
 export const experience: ExperienceItem[] = [
   {
-    company: "Acme Corp",
-    role: "Senior Full Stack Developer",
-    period: "Jan 2024 – Present",
-    location: "Remote",
+    company: "Bakawan Data Analytics Inc.",
+    role: "Application/Software Developer",
+    period: "Aug 2025 – Present",
+    location: "San Pablo City, Laguna, PH",
     type: "full-time",
     current: true,
     description:
-      "Leading development of the company's core SaaS platform serving 20k+ users. Own the full stack from API design to React frontend, with a focus on performance and developer experience.",
+      "Build and maintain backend services, REST APIs, and web and mobile applications, from database design through to authentication and secure integrations.",
     highlights: [
-      "Reduced API response times by 60% by migrating to edge functions and adding Redis caching",
-      "Architected a multi-tenant RBAC system supporting 5 permission levels",
-      "Mentored 2 junior developers and introduced weekly code review practices",
-      "Led migration from CRA to Next.js App Router, improving LCP by 40%",
+      "Develop and maintain backend services and REST APIs using Go, Python, and FastAPI",
+      "Build and enhance web and mobile applications using Flutter and React Native",
+      "Design and manage PostgreSQL databases and optimize SQL queries",
+      "Implement authentication, role-based access control (RBAC), and secure API integrations",
+      "Use AI-assisted development tools, including Claude Code and Google Antigravity, for coding, debugging, and development workflows",
+      "Troubleshoot software issues, maintain existing systems, and improve application reliability",
     ],
-    techStack: ["Next.js", "TypeScript", "PostgreSQL", "Redis", "Prisma", "AWS"],
-    companyUrl: "https://acme.com",
+    techStack: ["Go", "Python", "FastAPI", "PostgreSQL", "Flutter", "React Native", "Claude Code"],
   },
   {
-    company: "Freelance",
-    role: "Full Stack Developer",
-    period: "Mar 2022 – Dec 2023",
-    location: "Remote",
-    type: "freelance",
+    company: "FDS Asya Philippines",
+    role: "Intern",
+    period: "Feb 2025 – May 2025",
+    location: "San Pablo City, Laguna, PH",
+    type: "internship",
     description:
-      "Delivered 12+ web projects for clients across e-commerce, fintech, and SaaS. Specialized in Next.js storefronts and headless CMS integrations.",
+      "Rotated across business and technical teams, taking system proposals from requirements through to presentation.",
     highlights: [
-      "Built a Shopify headless storefront achieving 98 Lighthouse performance score",
-      "Developed a real-time booking system handling 500+ reservations/day",
-      "Integrated Stripe billing with proration for 3 SaaS clients",
-      "Maintained 100% on-time delivery across all client engagements",
+      "Gained exposure to Business Relationship Management, Project Management, Technical Support, Quality Assurance, and Software Development",
+      "Collaborated with team members to plan and develop feasible system solutions addressing identified needs and requirements",
+      "Presented proposed systems and project concepts to demonstrate their functionality, feasibility, and business value",
     ],
-    techStack: ["React", "Next.js", "Node.js", "Stripe", "Shopify", "Sanity"],
-  },
-  {
-    company: "StartupXYZ",
-    role: "Frontend Developer",
-    period: "Jun 2021 – Feb 2022",
-    location: "Manila, PH · Hybrid",
-    type: "full-time",
-    description:
-      "Joined as the first frontend hire at a Series A startup. Built the product UI from scratch, established the component library, and set up the CI/CD pipeline.",
-    highlights: [
-      "Designed and built the entire frontend from zero using React and Tailwind CSS",
-      "Created a reusable component library of 40+ components with Storybook docs",
-      "Set up GitHub Actions CI/CD pipeline reducing deployment time from 20 min to 4 min",
-      "Improved mobile conversion rate by 35% through responsive redesign",
-    ],
-    techStack: ["React", "TypeScript", "Tailwind CSS", "Storybook", "GitHub Actions"],
-    companyUrl: "https://startupxyz.com",
-  },
-  {
-    company: "ByteWorks Agency",
-    role: "Junior Web Developer",
-    period: "Jan 2020 – May 2021",
-    location: "Manila, PH · On-site",
-    type: "full-time",
-    description:
-      "Started career at a digital agency building websites and internal tools for local and international clients. Worked across the full stack under senior developer mentorship.",
-    highlights: [
-      "Delivered 20+ client websites on WordPress and custom PHP/Laravel backends",
-      "Built an internal project management tool that reduced reporting time by 50%",
-      "Introduced Git workflow and code review process to a team previously using FTP",
-    ],
-    techStack: ["JavaScript", "PHP", "Laravel", "MySQL", "WordPress"],
-    companyUrl: "https://byteworks.ph",
+    techStack: [],
   },
 ];
 
@@ -224,16 +191,18 @@ function TimelineEntry({
           </ul>
 
           {/* Tech stack */}
-          <div className="flex flex-wrap gap-1.5 border-t border-foreground/6 pt-4">
-            {item.techStack.map((tech) => (
-              <span
-                key={tech}
-                className="rounded-md border border-foreground/8 bg-foreground/4 px-2.5 py-0.5 font-mono text-[11px] text-foreground/35 transition-colors hover:border-foreground/18 hover:text-foreground/65"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
+          {item.techStack.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 border-t border-foreground/6 pt-4">
+              {item.techStack.map((tech) => (
+                <span
+                  key={tech}
+                  className="rounded-md border border-foreground/8 bg-foreground/4 px-2.5 py-0.5 font-mono text-[11px] text-foreground/35 transition-colors hover:border-foreground/18 hover:text-foreground/65"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </motion.div>
     </div>
@@ -260,7 +229,7 @@ export default function Experience() {
           </p>
           <h2 className="text-4xl font-bold tracking-tight md:text-5xl">Experience</h2>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-foreground/40">
-            3+ years building products across startups, agencies, and as an independent developer.
+            Building web and mobile apps, REST APIs, and database-backed systems — from internship to full-time developer.
           </p>
         </motion.div>
 
@@ -286,7 +255,7 @@ export default function Experience() {
         >
           <a
             href="/resume.pdf"
-            download
+            download="Artemio-Lorredo-Resume.pdf"
             className="inline-flex items-center gap-2 rounded-xl border border-foreground/12 bg-foreground/4 px-5 py-2.5 text-sm font-medium text-foreground/50 transition-all hover:border-foreground/25 hover:bg-foreground/8 hover:text-foreground/90"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -294,7 +263,7 @@ export default function Experience() {
             </svg>
             Download full résumé
           </a>
-          <span className="text-sm text-foreground/20">PDF · Updated 2025</span>
+          <span className="text-sm text-foreground/20">PDF · Updated Nov 2026</span>
         </motion.div>
 
       </div>

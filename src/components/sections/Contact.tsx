@@ -399,7 +399,7 @@ export default function Contact() {
             {/* Resume */}
             <a
               href="/resume.pdf"
-              download="Resume.pdf"
+              download="Artemio-Lorredo-Resume.pdf"
               className="flex items-center justify-center gap-2 rounded-2xl border border-foreground/10 bg-foreground/4 px-5 py-4 text-sm font-medium text-foreground/50 transition-all hover:border-foreground/22 hover:bg-foreground/8 hover:text-foreground"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">

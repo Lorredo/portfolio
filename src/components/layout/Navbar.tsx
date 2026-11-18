@@ -79,7 +79,7 @@ function MobileMenu({
             <div className="mt-4 border-t border-foreground/8 pt-4">
               <a
                 href="/resume.pdf"
-                download
+                download="Artemio-Lorredo-Resume.pdf"
                 onClick={onClose}
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-foreground px-4 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
               >
@@ -179,7 +179,7 @@ export default function Navbar() {
             {/* Resume button — desktop only */}
             <a
               href="/resume.pdf"
-              download
+              download="Artemio-Lorredo-Resume.pdf"
               className="hidden items-center gap-1.5 rounded-lg border border-foreground/12 bg-foreground/5 px-3 py-1.5 text-xs font-medium text-foreground/60 transition-all hover:border-foreground/25 hover:bg-foreground/10 hover:text-foreground md:inline-flex"
             >
               <svg width="12" height="12" viewBox="0 0 14 14" fill="none">

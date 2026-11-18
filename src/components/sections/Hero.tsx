@@ -318,7 +318,7 @@ export default function Hero() {
 
           <motion.a
             href="/resume.pdf"
-            download
+            download="Artemio-Lorredo-Resume.pdf"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.96 }}
             className="inline-flex items-center gap-2 text-sm text-foreground/40 transition-colors hover:text-foreground/80"

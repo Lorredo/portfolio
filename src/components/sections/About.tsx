@@ -7,11 +7,25 @@ import Link from "next/link";
 // ─── Data ─────────────────────────────────────────────────────────
 
 const SKILLS = [
+  { category: "Backend",   items: ["Go", "Python", "FastAPI", "Fiber", "REST APIs"] },
+  { category: "Mobile",    items: ["Flutter", "React Native", "Expo"] },
   { category: "Frontend",  items: ["Next.js", "React", "TypeScript", "Tailwind CSS"] },
-  { category: "Backend",   items: ["Go Lang, Node.js", "REST APIs", "WebSockets"] },
-  { category: "Database",  items: ["PostgreSQL", "Prisma", "Redis", "Supabase", "MySQL"] },
-  { category: "DevOps",    items: ["GitHub Actions", "Vercel", "AWS S3"] },
-  { category: "Tools",     items: ["Git", "VS Code", "Figma", "Postman", "Claude Code"] },
+  { category: "Database",  items: ["PostgreSQL", "Firebase", "Prisma", "Supabase"] },
+  { category: "Security",  items: ["Authentication", "JWT", "RBAC", "API Integration"] },
+  { category: "DevOps",    items: ["Docker", "GitHub Actions", "Vercel", "Render"] },
+  { category: "Tools",     items: ["Git", "Postman", "VS Code", "Claude Code"] },
+];
+
+const EDUCATION = {
+  school: "Laguna State Polytechnic University",
+  degree: "BS Information Technology",
+  honors: "Magna Cum Laude",
+  year: "2026",
+};
+
+const CERTIFICATES = [
+  "Certified IT Service Management Professional",
+  "IBM SkillsBuild — User Experience Design Fundamentals",
 ];
 
 const VALUES = [
@@ -79,19 +93,23 @@ export default function About() {
         <FadeIn delay={0.1}>
           <div className="mb-14 flex flex-col gap-4 text-base leading-relaxed text-foreground/55">
             <p>
-              I&apos;m a full stack developer based in Manila, Philippines, with 1+ years of experience
-              building web and app products from the database to the interface. I specialize in
-              <span className="text-foreground"> Go Lang, NextJS, Flutter, and PostgreSQL</span> — the stack
-              that lets me move fast without cutting corners.
+              I&apos;m a full stack developer from Macalelon, Quezon, Philippines, building web and
+              mobile applications, REST APIs, and database-driven systems. I work mostly with
+              <span className="text-foreground"> Go, Python, Flutter, React Native, and PostgreSQL</span>,
+              with a focus on secure, reliable, and maintainable software.
             </p>
             <p>
-              I started my career at Bakawan Data Analytics, where I learned the fundamentals and got
-              to own entire products end-to-end. These days I work as a full stack developer,
-              building applications that I&apos;m passionate about.
+              I got my start as an intern at FDS Asya Philippines, working across project management,
+              QA, technical support, and software development. Since August 2025 I&apos;ve been an
+              Application/Software Developer at Bakawan Data Analytics, where I build backend services
+              and APIs, web and mobile apps, and the authentication and access control behind them.
             </p>
             <p>
-              Outside of code I&apos;m into mechanical keyboards, specialty coffee, and occasionally
-              convincing myself I&apos;ll finish a side project before starting another one.
+              Outside of work I build my own products — most recently{" "}
+              <Link href="/projects/fintrack" className="text-foreground underline decoration-foreground/25 underline-offset-4 transition-colors hover:decoration-foreground/70">
+                FinTrack
+              </Link>
+              , a personal finance app with a React Native client and a Go API.
             </p>
           </div>
         </FadeIn>
@@ -141,6 +159,38 @@ export default function About() {
           </div>
         </FadeIn>
 
+        {/* Education & certificates */}
+        <FadeIn delay={0.22}>
+          <p className="mb-6 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">
+            Education &amp; certificates
+          </p>
+          <div className="mb-14 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-5">
+              <div className="mb-2 text-2xl">🎓</div>
+              <h3 className="font-semibold text-foreground">{EDUCATION.degree}</h3>
+              <p className="mt-1 text-sm text-foreground/45">{EDUCATION.school}</p>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="rounded-full border border-amber-500/25 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-medium text-amber-400">
+                  {EDUCATION.honors}
+                </span>
+                <span className="font-mono text-xs text-foreground/30">{EDUCATION.year}</span>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-5">
+              <div className="mb-2 text-2xl">📜</div>
+              <h3 className="mb-2 font-semibold text-foreground">Certificates</h3>
+              <ul className="flex flex-col gap-2">
+                {CERTIFICATES.map((c) => (
+                  <li key={c} className="flex gap-2.5 text-sm leading-relaxed text-foreground/45">
+                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-emerald-400" />
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </FadeIn>
+
         {/* Currently */}
         <FadeIn delay={0.25}>
           <div className="mb-14 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6">
@@ -154,7 +204,8 @@ export default function About() {
               </span>
             </div>
             <ul className="flex flex-col gap-2 text-sm text-foreground/55">
-              <li>🏢 Working as Application Developer at Bakawan Data Analytics Inc.</li>
+              <li>🏢 Working as Application/Software Developer at Bakawan Data Analytics Inc.</li>
+              <li>📱 Building FinTrack, a personal finance app for Android and iOS</li>
               <li>🌱 Learning Agentic AI</li>
               <li>📝 Writing about full stack development on this blog</li>
               <li>🔍 Open to interesting freelance projects</li>
@@ -176,7 +227,7 @@ export default function About() {
             </Link>
             <a
               href="/resume.pdf"
-              download
+              download="Artemio-Lorredo-Resume.pdf"
               className="inline-flex items-center gap-2 rounded-xl border border-foreground/12 bg-foreground/4 px-6 py-3 text-sm font-medium text-foreground/55 transition-all hover:border-foreground/25 hover:bg-foreground/8 hover:text-foreground"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -185,7 +236,7 @@ export default function About() {
               Download CV
             </a>
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/Lorredo"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-foreground/30 transition-colors hover:text-foreground/70"
