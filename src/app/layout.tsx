@@ -25,7 +25,7 @@ const structuredData = {
   "url": "https://artem.dev",
   "jobTitle": "Full Stack Developer",
   "sameAs": [
-    "https://github.com/yourusername",
+    "https://github.com/Lorredo",
     "https://linkedin.com/in/yourusername"
   ]
 };

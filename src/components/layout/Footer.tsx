@@ -17,7 +17,7 @@ const NAV_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { label: "GitHub",   href: "https://github.com/yourusername"        },
+  { label: "GitHub",   href: "https://github.com/Lorredo"        },
   { label: "LinkedIn", href: "https://linkedin.com/in/yourusername"   },
   { label: "Twitter",  href: "https://twitter.com/yourusername"       },
   { label: "Email",    href: "mailto:you@youremail.com"               },
@@ -116,7 +116,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com/yourusername/portfolio"
+              href="https://github.com/Lorredo/portfolio"
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs text-foreground/20 transition-colors hover:text-foreground/55"
