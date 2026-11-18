@@ -34,15 +34,15 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "fintrack",
-    title: "FinTrack — Personal Finance & Budget Tracker",
+    title: "FinTrack — Personal Finance for Philippine Pay Cycles",
     summary:
-      "A full-stack mobile finance app for Filipino earners: Safe to Spend until payday, bills, utang and paluwagan, receipt scanning, and offline saving.",
+      "A cross-platform personal finance app built for Philippine pay cycles, with payday-based spending limits, bill tracking, on-device receipt scanning and offline-first sync.",
     // One line per paragraph: the detail page renders newlines as line breaks
-    description: `FinTrack is a personal finance app built around how pay works in the Philippines. It tracks income, expenses and transfers across wallets like GCash, Maya and bank accounts, and works out how much is Safe to Spend each day until the next 15th or 30th payday: from your salary and allowances, minus bills, savings and what you've already spent, never more than your wallets hold.
+    description: `FinTrack is a cross-platform personal finance app designed around the semi-monthly pay cycle common in the Philippines. Users track income, expenses and transfers across e-wallets and bank accounts such as GCash and Maya. Its core feature, Safe to Spend, calculates a daily spending limit until the next payday (the 15th or 30th) from expected salary and allowances, net of upcoming bills, savings and spending to date, and never above the actual wallet balance.
 
-It also handles recurring bills with reminders, one-tap salary and allowance recording on payday, utang (money lent and borrowed) and paluwagan rounds, category budgets and PDF/Excel reports. Receipt screenshots from GCash, Maya or a bank are read on the phone with ML Kit to fill in a transaction, and changes made without signal are saved on the phone and synced later.
+Beyond day-to-day tracking, the app manages recurring bills with reminders, one-tap payday income recording, personal loans (utang) and rotating savings groups (paluwagan), category budgets, and PDF/Excel reporting. Receipts from GCash, Maya or banking apps are read on-device with Google ML Kit to pre-fill transactions, and an offline-first design lets users keep recording without a connection, with changes synced automatically once they're back online.
 
-I built it solo: design, mobile, backend, database and deployment. It's a monorepo with a React Native (Expo) client and a Go REST API on serverless PostgreSQL (Neon), deployed in Docker on Render. The backend is layered (routes → handlers → services → database) with JWT middleware, validation and integration tests against a real database; the app uses a feature-based structure, a custom design system and a TanStack Query data layer with an encrypted offline cache.`,
+I designed and built FinTrack end to end as a solo developer, covering UX, mobile, backend, database and deployment. It's a monorepo with a React Native (Expo) client and a Go REST API on serverless PostgreSQL (Neon), containerized with Docker and hosted on Render. The backend follows a layered architecture (routes → handlers → services → data access) with JWT authentication middleware, request validation, and integration tests against a real PostgreSQL database. The mobile app uses a feature-based architecture, a custom design system, and a TanStack Query data layer backed by an encrypted offline cache.`,
     tags: ["Mobile", "Full Stack", "Finance"],
     techStack: [
       "React Native",
@@ -86,13 +86,13 @@ I built it solo: design, mobile, backend, database and deployment. It's a monore
       { label: "PIN Lock", src: "/projects/fintrack/pin-lock.png" },
     ],
     highlights: [
-      "Safe to Spend per day until payday, planned from salary and allowances and capped by real wallet balances",
-      "Offline saving: an encrypted outbox syncs changes in order, and phone-generated ids make retries safe",
-      "On-device receipt scanning with ML Kit: share a GCash, Maya or bank screenshot to fill in a transaction",
-      "Recurring bills, payday Record pay, utang and paluwagan tracking, all with local reminders",
-      "Multi-wallet ledger with transfers and fees, category budgets with atomic rebalancing, PDF and Excel reports",
-      "Google sign-in, JWT refresh-token rotation, PIN lock with biometrics, and an encrypted local store",
-      "Android home-screen widget, and 18 versioned PostgreSQL migrations with data backfills",
+      "Payday-aware budgeting: a daily Safe to Spend limit until the next payday, planned from salary and allowances and capped at real wallet balances",
+      "Offline-first sync: an encrypted outbox replays changes in order, and client-generated IDs make retries idempotent",
+      "On-device receipt scanning: ML Kit turns GCash, Maya and bank screenshots into transactions",
+      "Bills and obligations: recurring bills, payday income logging, and utang and paluwagan tracking with local reminders",
+      "Ledger and reporting: multi-wallet transfers with fees, category budgets with atomic rebalancing, and PDF/Excel exports",
+      "Security: Google sign-in, rotating JWT refresh tokens, PIN and biometric lock, and encrypted local storage",
+      "Platform and data: an Android home-screen widget and 18 versioned PostgreSQL migrations with data backfills",
     ],
   },
 ];
