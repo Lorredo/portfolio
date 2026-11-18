@@ -1,0 +1,22 @@
+name: Supabase Keep-Alive
+
+# Supabase's free tier pauses a project after ~7 days without activity,
+# which takes down page views, likes, the guestbook and the contact form.
+# A real query every 3 days keeps it active.
+
+on:
+  schedule:
+    - cron: "0 3 */3 * *" # 03:00 UTC every 3 days
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Query Database
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Run a query
+        run: psql "$DIRECT_URL" -v ON_ERROR_STOP=1 -c "SELECT count(*) FROM guestbook_entries;"
+        env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
