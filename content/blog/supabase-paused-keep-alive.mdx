@@ -1,0 +1,99 @@
+---
+title: "My Supabase Project Paused and Took Down Half My Portfolio"
+summary: "The guestbook returned 500s, page views stopped, and my deploy pipeline failed three times in a row. Here's what happened, how I fixed it, and the small GitHub Action that keeps it from happening again."
+publishedAt: "2026-11-19"
+tags: ["Supabase", "PostgreSQL", "GitHub Actions", "DevOps"]
+featured: false
+draft: false
+---
+
+My portfolio runs on Next.js, deployed on Vercel, with a PostgreSQL database on **Supabase's free tier**. The database powers the guestbook, page view counts, project likes and the contact form.
+
+One week, all of those quietly stopped working. This is what happened, how I fixed it, and how I stopped it from happening again.
+
+## The symptoms
+
+The first sign wasn't the website. It was my **production deploy workflow**, which had failed three times in a row at the database migration step:
+
+```
+Error: Schema engine error:
+FATAL: (ENOTFOUND) tenant/user postgres.<project-ref> not found
+```
+
+Meanwhile the site itself still deployed, because Vercel's Git integration deploys on every push regardless of my workflow. The pages loaded fine. But anything touching the database was broken: the guestbook API returned **500**, view counts stopped, and likes did nothing.
+
+That's the worst kind of outage: the site *looks* up, so you don't notice.
+
+## The cause: free-tier pausing
+
+Supabase's free tier **pauses a project after about 7 days without activity**. My portfolio doesn't get enough traffic to keep the database busy, so it was paused.
+
+The error message doesn't say that, though. `tenant/user not found` comes from Supabase's connection pooler, and it means "I don't know this project". A paused project is effectively removed from the pooler until it's restored.
+
+## The fix (part 1): restore
+
+Restoring is one button in the Supabase dashboard. After a few minutes the project came back, and the error changed:
+
+```
+Error: P1000: Authentication failed against database server,
+the provided database credentials for `postgres` are not valid.
+```
+
+Progress, sort of. The database was reachable, but it rejected the stored password. I retried for a few minutes in case the pooler was still catching up after the restore, but the error never changed.
+
+## The fix (part 2): reset the password everywhere
+
+Supabase never shows your database password again after it's set. So the fix was to **reset it** in Project Settings → Database, and then update it in **every place that uses it**:
+
+1. **Local `.env`**, for development and running migrations.
+2. **GitHub Actions secret** (`DIRECT_URL`), which the deploy workflow uses to run migrations.
+3. **Vercel environment variables** (`DATABASE_URL` and `DIRECT_URL`) for both Production and Preview. The live site reads these at runtime.
+
+The third one is easy to forget. Vercel only applies new environment variables to **new deployments**, so the site stays broken until you redeploy.
+
+After a redeploy, the guestbook API returned **200** again, and the deploy workflow went green for the first time that week.
+
+> **Tip:** Choose a database password with only letters and numbers. Special characters have to be URL-encoded inside a connection string, which is an easy way to end up with a password that's correct but still rejected.
+
+## The prevention: a keep-alive workflow
+
+Restoring by hand every time isn't a real fix. The project needs regular activity, so I added a scheduled GitHub Action that runs a real query every three days:
+
+```yaml
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    - cron: "0 3 */3 * *" # 03:00 UTC every 3 days
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Query Database
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Run a query
+        run: psql "$DIRECT_URL" -v ON_ERROR_STOP=1 -c "SELECT count(*) FROM guestbook_entries;"
+        env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+```
+
+A few choices here:
+
+- **Every 3 days** keeps a comfortable margin under the 7-day limit, even if a run is skipped.
+- **A real query on a real table**, not just opening a connection, so it clearly counts as activity.
+- **`psql` is already installed** on GitHub's Ubuntu runners, so there's nothing to set up.
+- **`workflow_dispatch`** adds a "Run workflow" button, which I used to test it right after merging.
+
+It also works as an **alarm**. If the database is ever paused, deleted or the password changes, the query fails and GitHub emails me, before a visitor finds a broken guestbook.
+
+One catch: GitHub disables scheduled workflows in a repository with no commits for 60 days. It sends an email first, and re-enabling it is one click.
+
+## What I learned
+
+- **Free tiers have rules.** Read the limits of every free service you depend on, especially the ones that turn things off.
+- **"The site loads" isn't monitoring.** My pages were fine while every database feature was broken. A check that exercises the real dependency would have caught it on day one.
+- **Know every place a secret lives.** The outage took minutes to fix once I had the list: `.env`, GitHub secrets, and Vercel's Production and Preview variables.
+- **Read errors literally.** `tenant/user not found` and `authentication failed` are different problems: the first means the project isn't reachable, the second means it is but the password is wrong. Telling them apart saved a lot of guessing.
