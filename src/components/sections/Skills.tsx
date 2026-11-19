@@ -2,82 +2,35 @@
 "use client";
 
 import { motion } from "framer-motion";
-
-// ─── Data ─────────────────────────────────────────────────────────
-
-const SKILL_GROUPS = [
-  {
-    category: "Frontend",
-    color: "emerald",
-    skills: [
-      { name: "Next.js",       level: 95 },
-      { name: "React",         level: 95 },
-      { name: "TypeScript",    level: 90 },
-      { name: "Tailwind CSS",  level: 92 },
-      { name: "Framer Motion", level: 80 },
-    ],
-  },
-  {
-    category: "Backend",
-    color: "blue",
-    skills: [
-      { name: "Node.js",    level: 88 },
-      { name: "tRPC",       level: 82 },
-      { name: "REST APIs",  level: 92 },
-      { name: "GraphQL",    level: 75 },
-      { name: "WebSockets", level: 78 },
-    ],
-  },
-  {
-    category: "Database",
-    color: "purple",
-    skills: [
-      { name: "PostgreSQL", level: 85 },
-      { name: "Prisma ORM", level: 90 },
-      { name: "Redis",      level: 72 },
-      { name: "Supabase",   level: 85 },
-      { name: "MySQL",      level: 75 },
-    ],
-  },
-  {
-    category: "DevOps",
-    color: "amber",
-    skills: [
-      { name: "Git / GitHub",     level: 92 },
-      { name: "Docker",           level: 78 },
-      { name: "GitHub Actions",   level: 82 },
-      { name: "Vercel",           level: 90 },
-      { name: "AWS S3",           level: 70 },
-    ],
-  },
-];
-
-const TOOLS = [
-  "VS Code", "Figma", "Postman", "Linear", "Notion",
-  "Slack", "iTerm2", "TablePlus", "Insomnia", "Git",
-];
+import { skillGroups, tools, type SkillGroup } from "../../../content/skills";
 
 // ─── Color maps ───────────────────────────────────────────────────
 
-const BORDER_COLOR: Record<string, string> = {
+const BORDER_COLOR: Record<SkillGroup["color"], string> = {
   emerald: "border-emerald-500/20",
   blue:    "border-blue-500/20",
   purple:  "border-purple-500/20",
   amber:   "border-amber-500/20",
+  rose:    "border-rose-500/20",
+  sky:     "border-sky-500/20",
 };
 
-const TEXT_COLOR: Record<string, string> = {
+const TEXT_COLOR: Record<SkillGroup["color"], string> = {
   emerald: "text-emerald-400",
   blue:    "text-blue-400",
   purple:  "text-purple-400",
   amber:   "text-amber-400",
+  rose:    "text-rose-400",
+  sky:     "text-sky-400",
 };
 
-const BG_COLOR: Record<string, string> = {
+const BG_COLOR: Record<SkillGroup["color"], string> = {
   emerald: "bg-emerald-500/8",
   blue:    "bg-blue-500/8",
   purple:  "bg-purple-500/8",
   amber:   "bg-amber-500/8",
+  rose:    "bg-rose-500/8",
+  sky:     "bg-sky-500/8",
 };
 
 // ─── Skill Card ───────────────────────────────────────────────────
@@ -86,7 +39,7 @@ function SkillCard({
   group,
   index,
 }: {
-  group: (typeof SKILL_GROUPS)[number];
+  group: SkillGroup;
   index: number;
 }) {
   return (
@@ -103,10 +56,10 @@ function SkillCard({
       <div className="flex flex-wrap gap-2">
         {group.skills.map((skill) => (
           <span
-            key={skill.name}
+            key={skill}
             className={`rounded-lg border border-foreground/10 bg-foreground/5 px-3 py-1.5 text-sm font-medium text-foreground/80 transition-colors hover:border-foreground/25 hover:bg-foreground/10 hover:text-foreground`}
           >
-            {skill.name}
+            {skill}
           </span>
         ))}
       </div>
@@ -134,13 +87,14 @@ export default function Skills() {
           </p>
           <h2 className="text-4xl font-bold tracking-tight md:text-5xl">Skills</h2>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-foreground/40">
-            A collection of technologies, frameworks, and tools I use to build modern digital products.
+            The technologies I use in production: backend services in Go and Python, mobile apps in
+            Flutter and React Native, and the databases and pipelines behind them.
           </p>
         </motion.div>
 
         {/* Skill cards grid */}
-        <div className="mb-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {SKILL_GROUPS.map((group, i) => (
+        <div className="mb-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {skillGroups.map((group, i) => (
             <SkillCard key={group.category} group={group} index={i} />
           ))}
         </div>
@@ -156,7 +110,7 @@ export default function Skills() {
             Tools I use
           </p>
           <div className="flex flex-wrap gap-2">
-            {TOOLS.map((tool) => (
+            {tools.map((tool) => (
               <span
                 key={tool}
                 className="rounded-xl border border-foreground/8 bg-foreground/4 px-3 py-1.5 text-sm text-foreground/45 transition-colors hover:border-foreground/18 hover:text-foreground/75"

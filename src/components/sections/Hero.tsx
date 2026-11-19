@@ -18,20 +18,20 @@ const MotionLink = motion.create(Link);
 
 const ROLES: Role[] = [
   { label: "Full Stack Developer", color: "#6EE7B7" },   // emerald
-  { label: "UI/UX Enthusiast",     color: "#93C5FD" },   // blue
-  { label: "Open Source Builder",  color: "#FCA5A5" },   // coral
+  { label: "Backend Developer",    color: "#93C5FD" },   // blue
+  { label: "Mobile Developer",     color: "#FCA5A5" },   // coral
   { label: "Problem Solver",       color: "#FCD34D" },   // amber
 ];
 
 const TECH_BADGES = [
-  "Next.js", "TypeScript", "React", "Go Lang", "Node.js",
-  "PostgreSQL", "Tailwind CSS", "Prisma", "Docker",
+  "Go", "Python", "FastAPI", "Flutter", "React Native",
+  "TypeScript", "PostgreSQL", "Redis", "Docker",
 ];
 
 const STATS = [
-  { target: 3,   suffix: "+", label: "Years experience" },
-  { target: 8,   suffix: "+", label: "Projects shipped" },
-  { target: 500, suffix: "+", label: "npm downloads"    },
+  { target: 1,   suffix: "+", label: "Year experience"  },
+  { target: 5,   suffix: "+", label: "Projects shipped" },
+  { target: 600, suffix: "+", label: "Commits"          },
 ];
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
@@ -294,8 +294,9 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          I build fast, accessible, and beautiful web products — from the database 
-          to the interface. Currently crafting tools that help people work smarter.
+          I build backend services, REST APIs, and mobile apps — from the database
+          to the interface. Currently a developer at Bakawan Data Analytics, and building
+          FinTrack, a personal finance app for Philippine pay cycles.
         </motion.p>
 
         {/* Tech badges */}
