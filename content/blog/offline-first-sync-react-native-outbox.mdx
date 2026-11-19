@@ -1,0 +1,118 @@
+---
+title: "Offline-First Sync in React Native with an Encrypted Outbox"
+summary: "People record expenses in jeepneys, basements and places with one bar of signal. Here's how FinTrack saves changes on the phone and syncs them safely later, without duplicates."
+publishedAt: "2026-11-19"
+tags: ["React Native", "TypeScript", "Go", "FinTrack"]
+featured: false
+draft: false
+---
+
+A finance app is only useful if you record expenses **when they happen**: at the jeepney stop, in the mall basement, at the sari-sari store with one bar of signal. If saving a transaction needs a network request to succeed, people stop using the app the moment it fails.
+
+So in [FinTrack](/projects/fintrack), adding, editing or deleting a transaction always works, online or not. Changes made offline are saved on the phone and sent to the server later. This post covers how that works: an **outbox** on the phone, and an API that makes retries safe.
+
+## The outbox
+
+The outbox is a list of changes the server hasn't received yet. Each entry is a create, update or delete:
+
+```ts
+interface EntryBase {
+  opId: string;
+  transactionId: string;
+  status: 'pending' | 'failed';
+  /** Why the server refused it, when status is 'failed'. */
+  error?: string;
+  createdAt: number;
+}
+
+export type OutboxEntry = CreateEntry | UpdateEntry | DeleteEntry;
+```
+
+### One entry per transaction
+
+The simplest design would be to queue every change in order and replay them. But that creates problems. If you create a transaction offline, edit it twice and then delete it, there's no reason to send four requests for something the server never needs to know about.
+
+Instead, the outbox keeps **at most one entry per transaction**, and new changes merge into the existing one:
+
+| Unsent entry | New change | Result |
+| --- | --- | --- |
+| create | update | one create with the new values |
+| update | update | one update with both sets of changes |
+| create | delete | removed entirely, nothing to send |
+| update | delete | one delete |
+
+Because each transaction has a single entry, the order *between* entries no longer matters, which removes a whole class of sync bugs.
+
+This merging logic is a pure function, `addChange(entries, change, opId, now)`, with no storage or network involved, so it's easy to unit test.
+
+### Stored encrypted
+
+Unsent changes are financial data, and they need to survive the app being closed. The outbox is saved on every change to MMKV, a fast key-value store, with **AES-256 encryption**. The encryption key is generated on the device and kept in the OS keystore via `expo-secure-store`, so it never sits next to the data it protects.
+
+### Showing unsent changes
+
+The user should see their change immediately, not a spinner. So the transaction list from the server is overlaid with the outbox before it's displayed: new transactions appear first, edited ones show their new values, and deleted ones disappear. Each unsent row carries a `syncStatus`, so the UI can show a small "waiting to sync" or "couldn't sync" marker.
+
+## Sending changes
+
+When the connection comes back, `flushOutbox()` sends pending entries **oldest first, one at a time**. Only one flush can run at once, so two triggers (say, the app coming to the foreground and the network reconnecting) can't send the same change twice.
+
+The key decision is what to do when a request fails:
+
+```ts
+export function classifySyncError(entry: OutboxEntry, error: unknown): SyncResult {
+  const status = (error as AxiosError)?.response?.status;
+  if (status === undefined || status >= 500 || status === 401 || status === 408 || status === 429) return 'retry';
+  // Already deleted, so the delete is done.
+  if (entry.kind === 'delete' && status === 404) return 'gone';
+  return 'refused';
+}
+```
+
+- **retry:** no response, a server error, an expired session or rate limiting. These are temporary, so the flush stops and tries again later.
+- **gone:** deleting something that's already deleted counts as success.
+- **refused:** the server rejected the change itself, for example a validation error. Retrying won't help, so the entry is marked failed and the user can fix or discard it.
+
+There's one more race: the user can edit a transaction *while* its create is being sent. When that happens, the create is removed and the edit is re-queued as an update to the newly saved transaction, so the edit isn't lost.
+
+## Making retries safe on the server
+
+Here's the classic problem with retries. The app sends "create this ₱250 expense", the server saves it, and the connection drops before the response arrives. The app thinks it failed and sends it again. Now the user has two ₱250 expenses.
+
+The fix is to let **the phone choose the transaction's ID**. Every new transaction gets a UUID on the device, before it's ever sent. The Go API then treats "create with an ID that already exists" as success:
+
+```go
+// Create saves a transaction. When the app sends its own id and that
+// transaction already exists, it is returned with existed true instead of
+// being added again, so an offline change can be retried safely.
+func (s *TransactionService) Create(ctx context.Context, userID string, req models.CreateTransactionRequest) (t *models.Transaction, existed bool, err error) {
+	if req.ID != nil {
+		if t, err := s.existingTransaction(ctx, userID, *req.ID); t != nil || err != nil {
+			return t, t != nil, err
+		}
+	}
+	t, err = CreateTransaction(ctx, s.db, userID, req)
+	var pgErr *pgconn.PgError
+	if req.ID != nil && errors.As(err, &pgErr) && pgErr.Code == "23505" {
+		// Saved by a request running at the same time.
+		t, err = s.existingTransaction(ctx, userID, *req.ID)
+		return t, t != nil, err
+	}
+	return t, false, err
+}
+```
+
+Three cases are covered:
+
+1. **A plain retry.** The transaction already exists, so the API returns it with `200 "Transaction already saved"` instead of creating a duplicate.
+2. **Two requests at the same time.** Both pass the existence check, and the database's primary key rejects the second insert (`23505` is PostgreSQL's unique-violation code). That's caught and treated as a retry too.
+3. **An ID belonging to someone else.** The lookup checks the owner, so one user can never read or overwrite another user's transaction by guessing an ID.
+
+In other words, creating a transaction is **idempotent**: sending the same request once or five times has the same result.
+
+## What I learned
+
+- **Merge, don't queue.** Collapsing changes into one entry per transaction made the sync logic much simpler and easier to reason about than replaying a log.
+- **Decide what's temporary.** Most of the sync design is really the error classification: which failures to retry, and which to hand back to the user.
+- **Idempotency belongs on the server.** The phone can't know whether a request that timed out actually succeeded. Client-generated IDs plus a server that accepts duplicates gracefully solve that properly.
+- **Keep the logic pure.** The merge rules and error classification have no I/O, so they're covered by fast unit tests. Those tests caught most of the edge cases in the tables above.

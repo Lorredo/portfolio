@@ -1,0 +1,119 @@
+---
+title: "Building Safe to Spend: A Budget Feature for Philippine Pay Cycles"
+summary: "Most budgeting apps think in months. Most Filipino employees get paid on the 15th and 30th. Here's how FinTrack works out what you can safely spend each day until the next payday."
+publishedAt: "2026-11-19"
+tags: ["Go", "PostgreSQL", "FinTrack", "Mobile"]
+featured: true
+draft: false
+---
+
+Most budgeting apps think in **months**: here's your budget for November, here's what you spent. But if you work in the Philippines, you probably don't get paid monthly. You get paid **semi-monthly**, on the 15th and the 30th, and the question you actually ask on the 23rd is:
+
+> How much can I spend today without being short before the 30th?
+
+That question is what **Safe to Spend** answers in [FinTrack](/projects/fintrack). This post walks through how it works in the Go backend.
+
+## Step 1: Find the pay period
+
+Everything starts with the current pay period: from the last payday up to, but not including, the next one. Paydays are the 15th and the 30th, except in February, where the second payday is the last day of the month.
+
+```go
+// semiMonthlyPaydays are the 15th and the 30th, which is the month's last day
+// in February.
+func semiMonthlyPaydays(year int, month time.Month) [2]time.Time {
+	return [2]time.Time{dayOf(year, month, 15), clampedDay(year, month, 30)}
+}
+
+func CurrentPayPeriod(schedule string, today time.Time) PayPeriod {
+	year, month := today.Year(), today.Month()
+	if schedule != PayScheduleSemiMonthly {
+		// Irregular pay counts to the end of the month.
+		return PayPeriod{Start: dayOf(year, month, 1), NextPayday: dayOf(year, month+1, 1)}
+	}
+	this := semiMonthlyPaydays(year, month)
+	switch {
+	case today.Before(this[0]):
+		previous := semiMonthlyPaydays(year, month-1)
+		return PayPeriod{Start: previous[1], NextPayday: this[0]}
+	case today.Before(this[1]):
+		return PayPeriod{Start: this[0], NextPayday: this[1]}
+	default:
+		next := semiMonthlyPaydays(year, month+1)
+		return PayPeriod{Start: this[1], NextPayday: next[0]}
+	}
+}
+```
+
+Two details matter more than they look:
+
+- **On a payday, a new period starts that day.** Getting paid on the 15th should immediately reset your number, not tomorrow.
+- **Dates are calendar days, not timestamps.** The app sends the user's local date, and the server treats midnight UTC as that day. That way the server's own time zone can never shift "today" by one and put you in the wrong pay period.
+
+## Step 2: Set aside what's already spoken for
+
+Your wallet balance isn't really yours to spend. Some of it is already committed. Before payday, FinTrack reserves:
+
+- **Bills** due before the next payday that haven't been paid yet, including overdue ones.
+- **Utang** you owe and **paluwagan** contributions due in the period. These are treated exactly like bills.
+- **Savings** for the period, minus anything you've already moved into a savings wallet, so the same money isn't set aside twice.
+
+Recurring bills have their own edge case. A bill due on the 31st has to land on the 28th or 29th in February, and then go *back* to the 31st in March instead of drifting to the 28th forever. So every due date is calculated from the bill's original start date, never from the previous due date:
+
+```go
+// Monthly and yearly dates always come from start, so a bill due on the 31st
+// returns to the 31st after a short month instead of drifting.
+func Occurrence(start time.Time, frequency string, n int) time.Time {
+	switch frequency {
+	case FrequencyWeekly:
+		return start.AddDate(0, 0, 7*n)
+	case FrequencyYearly:
+		return clampedDay(start.Year()+n, start.Month(), start.Day())
+	default:
+		months := int(start.Month()) - 1 + n
+		return clampedDay(start.Year()+months/12, time.Month(months%12+1), start.Day())
+	}
+}
+```
+
+## Step 3: Two ways to calculate it
+
+### Balance mode
+
+If you haven't told the app your salary, it works from what's in your wallets:
+
+```
+balance left = wallet balance − bills reserved − savings reserved
+```
+
+Only wallets you mark as "counted" are included, so a savings account or emergency fund doesn't make your spending money look bigger than it is. Transfers between two counted wallets cancel out in the SQL, since each side of the transfer is joined once.
+
+### Salary mode
+
+If you enter your salary per payday (and any regular income like an allowance), FinTrack can plan the whole period:
+
+```
+pay            = max(income recorded this period, expected pay)
+spending money = pay − all bills this period − savings target
+planned left   = spending money − spent since payday
+```
+
+Using `max` matters: if payday has come but you haven't recorded your salary yet, the plan still uses the expected amount instead of telling you that you have nothing. And if you earned *more* than expected, a percentage of the extra can go straight into savings.
+
+## Step 4: Never promise more than you have
+
+A plan can be wrong. Maybe your salary was delayed, or you spent from a wallet the app doesn't count. So the final number is the smaller of the two:
+
+```go
+result.Spendable = math.Min(result.PlannedLeft, result.BalanceLeft)
+result.PerDay = round2(result.Spendable / float64(max(result.DaysLeft, 1)))
+```
+
+The plan says what you *should* be able to spend. The balance says what you *can*. Safe to Spend shows whichever is lower, then divides it by the days left until payday. When the balance is the limiting factor, the app tells you, so the number never feels arbitrary.
+
+## What I learned
+
+- **Design around how people actually live.** The semi-monthly cycle, utang and paluwagan aren't edge cases for Filipino users. They're the main case, and building them into the core calculation is what makes the number trustworthy.
+- **Dates are harder than money.** Most of the bugs I hit were about days, not amounts: February paydays, bills on the 31st, and time zones moving "today".
+- **Show your work.** The API returns every intermediate value (pay, bills reserved, savings, days left), not just the final number. That made it far easier to test, and it lets the app explain *why* you can spend ₱500 a day instead of just showing it.
+
+The backend for this has integration tests that run against a real PostgreSQL database, which caught several of those date bugs before they reached the app.
