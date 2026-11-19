@@ -68,7 +68,7 @@ export default function Footer() {
               artem<span className="text-emerald-400">.dev</span>
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-foreground/35">
-              Full stack developer building fast, accessible, and beautiful web products.
+              Full stack developer building backend services, REST APIs, and mobile apps.
             </p>
             <VisitorCount />
           </div>

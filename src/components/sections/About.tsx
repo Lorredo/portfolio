@@ -3,17 +3,14 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { skillGroups, tools } from "../../../content/skills";
 
 // ─── Data ─────────────────────────────────────────────────────────
 
-const SKILLS = [
-  { category: "Backend",   items: ["Go", "Python", "FastAPI", "Fiber", "REST APIs"] },
-  { category: "Mobile",    items: ["Flutter", "React Native", "Expo"] },
-  { category: "Frontend",  items: ["Next.js", "React", "TypeScript", "Tailwind CSS"] },
-  { category: "Database",  items: ["PostgreSQL", "Firebase", "Prisma", "Supabase"] },
-  { category: "Security",  items: ["Authentication", "JWT", "RBAC", "API Integration"] },
-  { category: "DevOps",    items: ["Docker", "GitHub Actions", "Vercel", "Render"] },
-  { category: "Tools",     items: ["Git", "Postman", "VS Code", "Claude Code"] },
+// Same skills as the home page, plus the tools row.
+const TECH_STACK = [
+  ...skillGroups.map((g) => ({ category: g.category, items: g.skills })),
+  { category: "Tools", items: tools },
 ];
 
 const EDUCATION = {
@@ -139,9 +136,9 @@ export default function About() {
             Tech stack
           </p>
           <div className="mb-14 flex flex-col gap-5">
-            {SKILLS.map((group) => (
+            {TECH_STACK.map((group) => (
               <div key={group.category} className="flex flex-col gap-2 sm:flex-row sm:gap-6">
-                <span className="w-24 shrink-0 text-sm font-medium text-foreground/35">
+                <span className="w-36 shrink-0 text-sm font-medium text-foreground/35">
                   {group.category}
                 </span>
                 <div className="flex flex-wrap gap-2">
