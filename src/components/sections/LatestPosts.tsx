@@ -33,7 +33,7 @@ export default function LatestPosts({ posts }: { posts: Post[] }) {
   const recentPosts = posts.slice(0, 3);
 
   return (
-    <section className="bg-background px-6 py-24 text-foreground">
+    <section className="bg-background px-6 py-16 sm:py-24 text-foreground">
       <div className="mx-auto max-w-3xl">
         <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>

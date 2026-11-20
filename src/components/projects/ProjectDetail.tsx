@@ -90,7 +90,7 @@ export default function ProjectDetail({ project, views }: { project: Project; vi
   const isMobile = isMobileProject(project);
 
   return (
-    <article className="min-h-screen bg-background px-6 py-24 text-foreground">
+    <article className="min-h-screen bg-background px-6 py-16 sm:py-24 text-foreground">
       <div className="mx-auto max-w-4xl">
 
         {/* Back link */}

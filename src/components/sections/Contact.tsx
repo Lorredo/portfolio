@@ -218,7 +218,7 @@ export default function Contact() {
     "w-full rounded-xl border border-foreground/10 bg-foreground/5 px-4 py-3 text-sm text-foreground placeholder-white/25 outline-none transition-all focus:border-emerald-500/50 focus:bg-foreground/8 focus:ring-1 focus:ring-emerald-500/30";
 
   return (
-    <section className="min-h-screen bg-background px-6 py-24 text-foreground">
+    <section className="min-h-screen bg-background px-6 py-16 sm:py-24 text-foreground">
       <div className="mx-auto max-w-5xl">
 
         {/* Header */}

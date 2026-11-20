@@ -57,10 +57,10 @@ export default function Footer() {
     <footer className="border-t border-foreground/8 bg-background px-6 py-14 text-foreground">
       <div className="mx-auto max-w-6xl">
 
-        <div className="mb-10 grid gap-10 sm:grid-cols-[1fr_auto_auto]">
+        <div className="mb-10 grid grid-cols-2 gap-10 sm:grid-cols-[1fr_auto_auto]">
 
           {/* Brand */}
-          <div className="flex flex-col gap-4">
+          <div className="col-span-2 flex flex-col gap-4 sm:col-span-1">
             <Link
               href="/"
               className="font-mono text-sm font-semibold text-foreground transition-opacity hover:opacity-70"

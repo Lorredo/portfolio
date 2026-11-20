@@ -117,7 +117,7 @@ export default function PostContent({ post, views, relatedPosts = [] }: Props) {
   const { frontmatter, content, readingTime, wordCount } = post;
 
   return (
-    <article className="min-h-screen bg-background px-6 py-24 text-foreground">
+    <article className="min-h-screen bg-background px-6 py-16 sm:py-24 text-foreground">
       <div className="mx-auto max-w-4xl">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_220px]">
           <div>
