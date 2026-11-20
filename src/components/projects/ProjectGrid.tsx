@@ -234,7 +234,7 @@ export default function ProjectGrid() {
   };
 
   return (
-    <section className="min-h-screen bg-background px-6 py-24 text-foreground">
+    <section className="min-h-screen bg-background px-6 py-16 sm:py-24 text-foreground">
       <div className="mx-auto max-w-6xl">
 
         {/* Section header */}

@@ -96,7 +96,7 @@ function TimelineEntry({
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <div ref={ref} className="relative flex gap-6 md:gap-8">
+    <div ref={ref} className="relative flex gap-4 sm:gap-6 md:gap-8">
 
       {/* Timeline spine + dot */}
       <div className="relative flex flex-col items-center">
@@ -134,7 +134,7 @@ function TimelineEntry({
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ delay: index * 0.1 + 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="group rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-6 transition-colors hover:border-foreground/14 hover:bg-foreground/[0.05]">
+        <div className="group rounded-2xl border border-foreground/8 bg-foreground/[0.03] p-5 sm:p-6 transition-colors hover:border-foreground/14 hover:bg-foreground/[0.05]">
 
           {/* Header */}
           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -160,8 +160,7 @@ function TimelineEntry({
                 ) : (
                   <span className="font-medium text-foreground/70">{item.company}</span>
                 )}
-                <span className="text-foreground/20">·</span>
-                <TypeBadge type={item.type} />
+                                <TypeBadge type={item.type} />
               </div>
             </div>
 
@@ -213,7 +212,7 @@ function TimelineEntry({
 
 export default function Experience() {
   return (
-    <section className="bg-background px-6 py-24 text-foreground">
+    <section className="bg-background px-6 py-16 sm:py-24 text-foreground">
       <div className="mx-auto max-w-3xl">
 
         {/* Header */}
@@ -247,7 +246,7 @@ export default function Experience() {
 
         {/* Download CTA */}
         <motion.div
-          className="mt-4 flex items-center gap-4 pl-[3.25rem]"
+          className="mt-4 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-4 sm:pl-[3.25rem]"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}

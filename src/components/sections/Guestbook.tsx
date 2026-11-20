@@ -77,12 +77,12 @@ export default function Guestbook() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="flex gap-4">
+            <div className="flex gap-3 sm:gap-4">
               <input
                 required
                 type="text"
                 placeholder="Your name"
-                className="flex-1 rounded-xl border border-foreground/12 bg-foreground/4 px-4 py-3 text-sm text-foreground focus:border-emerald-500/50 focus:outline-none"
+                className="min-w-0 flex-1 rounded-xl border border-foreground/12 bg-foreground/4 px-4 py-3 text-sm text-foreground focus:border-emerald-500/50 focus:outline-none"
                 value={name}
                 onChange={e => setName(e.target.value)}
               />
@@ -90,7 +90,7 @@ export default function Guestbook() {
                 type="text"
                 placeholder="😊"
                 maxLength={2}
-                className="w-16 rounded-xl border border-foreground/12 bg-foreground/4 px-4 py-3 text-center text-sm text-foreground focus:border-emerald-500/50 focus:outline-none"
+                className="w-14 shrink-0 rounded-xl border border-foreground/12 bg-foreground/4 px-2 py-3 text-center text-sm text-foreground focus:border-emerald-500/50 focus:outline-none"
                 value={emoji}
                 onChange={e => setEmoji(e.target.value)}
               />

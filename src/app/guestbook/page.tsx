@@ -12,7 +12,7 @@ export default function GuestbookPage() {
   // incrementPageView('/guestbook');
 
   return (
-    <div className="min-h-screen bg-background px-6 py-24 text-foreground">
+    <div className="min-h-screen bg-background px-6 py-16 sm:py-24 text-foreground">
       <div className="max-w-3xl mx-auto">
         <header className="mb-16 text-center">
           <h1 className="text-4xl font-bold tracking-tight mb-4">Guestbook</h1>

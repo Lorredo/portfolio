@@ -225,7 +225,7 @@ function GlowOrb({ className }: { className?: string }) {
 function ScrollIndicator() {
   return (
     <motion.div
-      className="absolute bottom-10 left-1/2 -translate-x-1/2"
+      className="absolute bottom-10 left-1/2 hidden -translate-x-1/2 md:block"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 2, duration: 0.8 }}
@@ -253,7 +253,7 @@ function ScrollIndicator() {
 
 export default function Hero() {
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-6 text-foreground">
+    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-6 pb-16 pt-24 text-foreground sm:pb-24">
 
       {/* Background atmosphere */}
       <GridBackground />
@@ -279,17 +279,17 @@ export default function Hero() {
           <p className="font-mono text-sm uppercase tracking-[0.2em] text-foreground/40">
             Hi, I&apos;m
           </p>
-          <h1 className="text-6xl font-bold leading-[1.05] tracking-tight md:text-7xl lg:text-8xl">
+          <h1 className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
             Artem Lorredo
           </h1>
-          <h2 className="text-4xl font-light leading-snug text-foreground/50 md:text-5xl">
+          <h2 className="text-3xl font-light leading-snug text-foreground/50 sm:text-4xl md:text-5xl">
             <RoleCycler />
           </h2>
         </motion.div>
 
         {/* Bio */}
         <motion.p
-          className="max-w-2xl text-lg leading-relaxed text-foreground/50"
+          className="max-w-2xl text-base leading-relaxed text-foreground/50 sm:text-lg"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
@@ -333,7 +333,7 @@ export default function Hero() {
 
         {/* Stats row */}
         <motion.div
-          className="flex flex-wrap gap-8 border-t border-foreground/10 pt-8"
+          className="grid grid-cols-3 gap-4 border-t border-foreground/10 pt-8 sm:flex sm:flex-wrap sm:gap-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.4, duration: 0.6 }}
@@ -341,7 +341,7 @@ export default function Hero() {
           {STATS.map(({ target, suffix, label }) => (
             <div key={label} className="flex flex-col gap-0.5">
               <AnimatedCounter target={target} suffix={suffix} />
-              <span className="text-sm text-foreground/40">{label}</span>
+              <span className="text-xs text-foreground/40 sm:text-sm">{label}</span>
             </div>
           ))}
         </motion.div>

@@ -22,7 +22,7 @@ export default function ShareButtons({ title, slug }: { title: string; slug: str
   const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
       <span className="text-sm text-foreground/40">Share:</span>
       <a 
         href={twitterUrl} 
