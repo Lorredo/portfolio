@@ -18,7 +18,6 @@ const MotionLink = motion.create(Link);
 
 const ROLES: Role[] = [
   { label: "Full Stack Developer", color: "#6EE7B7" },   // emerald
-  { label: "Backend Developer",    color: "#93C5FD" },   // blue
   { label: "Mobile Developer",     color: "#FCA5A5" },   // coral
   { label: "Problem Solver",       color: "#FCD34D" },   // amber
 ];

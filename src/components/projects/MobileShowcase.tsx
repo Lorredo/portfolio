@@ -35,6 +35,18 @@ export function PlatformBadge({ platform }: { platform: Project["platform"] }) {
   );
 }
 
+const kindLabels = { capstone: "Capstone", academic: "Academic" } as const;
+
+export function KindBadge({ kind }: { kind: Project["kind"] }) {
+  if (!kind || kind === "personal") return null;
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/20 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-medium text-amber-400">
+      <span aria-hidden>🎓</span>
+      {kindLabels[kind]}
+    </span>
+  );
+}
+
 // ─── Phone frame ──────────────────────────────────────────────────
 
 function PlaceholderScreen({ label }: { label: string }) {

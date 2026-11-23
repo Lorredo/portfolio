@@ -6,7 +6,7 @@ import Link from "next/link";
 import { projects, type Project } from "../../../content/projects";
 import ProjectCard from "./ProjectCard";
 import LikeButton from "./LikeButton";
-import { DemoVideo, isMobileProject, PlatformBadge, ScreenGallery, StoreLinks } from "./MobileShowcase";
+import { DemoVideo, isMobileProject, KindBadge, PlatformBadge, ScreenGallery, StoreLinks } from "./MobileShowcase";
 
 // ─── Sub-components ───────────────────────────────────────────────
 
@@ -64,16 +64,6 @@ function FadeIn({
   );
 }
 
-function getProjectGradient(tags: string[]): { from: string; to: string } {
-  if (tags.includes('AI')) return { from: 'from-purple-900/40', to: 'to-pink-900/30' };
-  if (tags.includes('E-commerce')) return { from: 'from-amber-900/40', to: 'to-orange-900/30' };
-  if (tags.includes('Real-time')) return { from: 'from-blue-900/40', to: 'to-cyan-900/30' };
-  if (tags.includes('CLI') || tags.includes('DevTools')) return { from: 'from-zinc-800/60', to: 'to-slate-900/40' };
-  if (tags.includes('Finance')) return { from: 'from-emerald-900/40', to: 'to-teal-900/30' };
-  if (tags.includes('SaaS')) return { from: 'from-indigo-900/40', to: 'to-violet-900/30' };
-  return { from: 'from-emerald-900/30', to: 'to-blue-900/30' };
-}
-
 // ─── Main Component ───────────────────────────────────────────────
 
 export default function ProjectDetail({ project, views }: { project: Project; views?: number }) {
@@ -86,7 +76,6 @@ export default function ProjectDetail({ project, views }: { project: Project; vi
     )
     .slice(0, 3);
 
-  const gradient = getProjectGradient(project.tags);
   const isMobile = isMobileProject(project);
 
   return (
@@ -113,6 +102,7 @@ export default function ProjectDetail({ project, views }: { project: Project; vi
             <div className="mb-4 flex flex-wrap items-center gap-3">
               <StatusDot status={project.status} />
               <PlatformBadge platform={project.platform} />
+              <KindBadge kind={project.kind} />
               {project.featured && (
                 <span className="rounded-full border border-purple-500/20 bg-purple-500/10 px-2.5 py-0.5 text-xs font-medium text-purple-400">
                   ★ Featured
@@ -145,23 +135,14 @@ export default function ProjectDetail({ project, views }: { project: Project; vi
           </div>
         </FadeIn>
 
-        {/* Cover — phone screens for mobile apps, placeholder otherwise */}
-        <FadeIn delay={0.1}>
-          {project.screens?.length ? (
+        {/* Phone screens for mobile apps; text-only projects skip the cover */}
+        {project.screens?.length ? (
+          <FadeIn delay={0.1}>
             <div className="mb-12">
               <ScreenGallery project={project} />
             </div>
-          ) : (
-            <div className="mb-12 overflow-hidden rounded-2xl border border-foreground/8">
-              <div className={`flex h-64 items-center justify-center bg-gradient-to-br ${gradient.from} ${gradient.to} md:h-80`}>
-                <div className="flex flex-col items-center gap-3">
-                  <p className="font-mono text-5xl font-bold text-foreground/15">{project.title.slice(0, 2).toUpperCase()}</p>
-                  <p className="font-mono text-xs text-foreground/20 uppercase tracking-widest">{project.year}</p>
-                </div>
-              </div>
-            </div>
-          )}
-        </FadeIn>
+          </FadeIn>
+        ) : null}
 
         {/* Main content grid */}
         <div className="grid gap-10 lg:grid-cols-[1fr_280px]">
@@ -292,7 +273,9 @@ export default function ProjectDetail({ project, views }: { project: Project; vi
                   <div className="flex items-center justify-between">
                     <dt className="text-xs text-foreground/30">Type</dt>
                     <dd className="font-mono text-xs text-foreground/60">
-                      {project.tags[0]}
+                      {project.kind === "capstone" || project.kind === "academic"
+                        ? [project.kind === "capstone" ? "Capstone" : "Academic", project.course].filter(Boolean).join(" · ")
+                        : project.tags[0]}
                     </dd>
                   </div>
                   {isMobile && (

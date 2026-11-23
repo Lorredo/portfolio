@@ -2,6 +2,9 @@ export type ProjectStatus = "completed" | "in-progress" | "archived";
 
 export type ProjectPlatform = "web" | "ios" | "android" | "cross-platform";
 
+// Where a project came from. Omitted means a personal project.
+export type ProjectKind = "personal" | "capstone" | "academic";
+
 export type AppScreen = {
   label: string;
   src?: string; // portrait screenshot under /public/projects/ — placeholder shown until added
@@ -19,7 +22,11 @@ export type Project = {
   liveUrl?: string;
   githubUrl?: string;
   featured: boolean;
-  coverImage: string; // path under /public/projects/
+  coverImage?: string; // path under /public/projects/ — used as the demo video poster
+
+  // School work
+  kind?: ProjectKind;
+  course?: string; // e.g. "BSIT, LSPU" — shown in the detail page Type row
 
   // Mobile projects
   platform?: ProjectPlatform; // defaults to "web"
