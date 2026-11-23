@@ -30,7 +30,7 @@ const TECH_BADGES = [
 
 const STATS = [
   { target: 1,   suffix: "+", label: "Year experience"  },
-  { target: 5,   suffix: "+", label: "Projects shipped" },
+  { target: 3,   suffix: "+", label: "Projects shipped" },
   { target: 600, suffix: "+", label: "Commits"          },
 ];
 
