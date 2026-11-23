@@ -34,6 +34,12 @@ const SERVICES: Service[] = [
     description: "Admin panels and internal tools in Next.js and React, connected to your data.",
     points: ["Reports, tables and exports", "Responsive on desktop and mobile", "Fast, accessible interfaces"],
   },
+  {
+    emoji: "🎓",
+    title: "Capstone & thesis systems",
+    description: "Web and mobile systems for capstone and thesis projects, built around your approved proposal.",
+    points: ["Features matched to your objectives and scope", "ERD, system flow and setup documentation", "Walkthrough to prepare you for the demo and defense"],
+  },
 ];
 
 // ─── Main Component ───────────────────────────────────────────────
@@ -61,7 +67,7 @@ export default function Services() {
         </motion.div>
 
         {/* Service cards */}
-        <div className="mb-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mb-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {SERVICES.map((s, i) => (
             <motion.div
               key={s.title}
