@@ -3,6 +3,7 @@ import Hero from "@/components/sections/Hero";
 import Experience from "@/components/sections/Experience";
 import { incrementPageView } from "@/lib/analytics";
 import Skills from "@/components/sections/Skills";
+import Services from "@/components/sections/Services";
 import Testimonials from "@/components/sections/Testimonials";
 import FeaturedProjects from "@/components/sections/FeaturedProjects";
 import LatestPosts from "@/components/sections/LatestPosts";
@@ -19,6 +20,7 @@ export default async function Home() {
       <LatestPosts posts={latestPosts} />
       <Experience />
       <Skills />
+      <Services />
       <Testimonials />
     </main>
   );

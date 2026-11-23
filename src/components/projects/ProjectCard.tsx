@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { type Project } from "../../../content/projects";
 import LikeButton from "./LikeButton";
-import { PlatformBadge } from "./MobileShowcase";
+import { KindBadge, PlatformBadge } from "./MobileShowcase";
 
 function StatusBadge({ status }: { status: Project["status"] }) {
   const map = {
@@ -53,6 +53,7 @@ export default function ProjectCard({ project }: Props) {
         <div className="flex flex-wrap items-center gap-2">
           <StatusBadge status={project.status} />
           <PlatformBadge platform={project.platform} />
+          <KindBadge kind={project.kind} />
         </div>
 
         <h3 className="mt-4 text-lg font-semibold text-foreground">
