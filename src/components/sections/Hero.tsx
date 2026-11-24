@@ -5,7 +5,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import heroCutout from "../../../public/hero-cutout.png";
-import profilePhoto from "../../../public/profile.jpg";
+import profileCutout from "../../../public/profile-cutout.png";
 
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -260,12 +260,15 @@ function ProfilePhoto() {
 
 function ProfileAvatar() {
   return (
-    <Image
-      src={profilePhoto}
-      alt=""
-      sizes="64px"
-      className="h-16 w-16 shrink-0 rounded-full border border-foreground/10 object-cover object-[50%_25%] lg:hidden"
-    />
+    // Background-removed photo on a theme-coloured backdrop
+    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-foreground/10 bg-foreground/[0.06] bg-gradient-to-b from-emerald-500/15 to-transparent lg:hidden">
+      <Image
+        src={profileCutout}
+        alt=""
+        sizes="64px"
+        className="h-full w-full object-cover object-[50%_15%]"
+      />
+    </div>
   );
 }
 

@@ -4,7 +4,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import profilePhoto from "../../../public/profile.jpg";
+import profileCutout from "../../../public/profile-cutout.png";
 import { skillGroups, tools } from "../../../content/skills";
 
 // ─── Data ─────────────────────────────────────────────────────────
@@ -83,14 +83,17 @@ export default function About() {
           <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
             <div className="relative w-28 shrink-0 sm:w-36">
               <div className="pointer-events-none absolute -inset-3 rounded-3xl bg-gradient-to-br from-emerald-500/20 via-transparent to-blue-500/20 blur-xl" />
-              <Image
-                src={profilePhoto}
-                alt="Artem Lorredo"
-                sizes="(min-width: 640px) 144px, 112px"
-                placeholder="blur"
-                preload
-                className="relative h-auto w-full rounded-2xl border border-foreground/10"
-              />
+              {/* Background-removed photo on a theme-coloured backdrop */}
+              <div className="relative overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/[0.06] bg-gradient-to-b from-emerald-500/15 to-transparent">
+                <Image
+                  src={profileCutout}
+                  alt="Artem Lorredo"
+                  sizes="(min-width: 640px) 144px, 112px"
+                  placeholder="blur"
+                  preload
+                  className="h-auto w-full"
+                />
+              </div>
             </div>
             <div>
               <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">
