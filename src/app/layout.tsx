@@ -8,21 +8,35 @@ import CursorGlow from "@/components/ui/CursorGlow";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import CommandPalette from "@/components/ui/CommandPalette";
 import EasterEgg from "@/components/ui/EasterEgg";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://artem.dev"),
-  title: "Artem Lorredo — Full Stack Developer",
-  description: "Full stack developer building backend services in Go and Python and mobile apps in Flutter and React Native.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Artem Lorredo",
-  "url": "https://artem.dev",
+  "url": SITE_URL,
+  "image": `${SITE_URL}/profile.jpg`,
   "jobTitle": "Full Stack Developer",
   "sameAs": [
     "https://github.com/Lorredo",

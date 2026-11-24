@@ -2,7 +2,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
+import profilePhoto from "../../../public/profile.jpg";
 import { skillGroups, tools } from "../../../content/skills";
 
 // ─── Data ─────────────────────────────────────────────────────────
@@ -78,12 +80,27 @@ export default function About() {
 
         {/* Header */}
         <FadeIn>
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">
-            About me
-          </p>
-          <h1 className="mb-8 text-4xl font-bold tracking-tight md:text-5xl">
-            Hey, I&apos;m Artem Lorredo 👋
-          </h1>
+          <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
+            <div className="relative w-28 shrink-0 sm:w-36">
+              <div className="pointer-events-none absolute -inset-3 rounded-3xl bg-gradient-to-br from-emerald-500/20 via-transparent to-blue-500/20 blur-xl" />
+              <Image
+                src={profilePhoto}
+                alt="Artem Lorredo"
+                sizes="(min-width: 640px) 144px, 112px"
+                placeholder="blur"
+                preload
+                className="relative h-auto w-full rounded-2xl border border-foreground/10"
+              />
+            </div>
+            <div>
+              <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground/30">
+                About me
+              </p>
+              <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
+                Hey, I&apos;m Artem Lorredo 👋
+              </h1>
+            </div>
+          </div>
         </FadeIn>
 
         {/* Bio */}

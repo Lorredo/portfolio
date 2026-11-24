@@ -22,13 +22,11 @@ export async function generateMetadata({ params }: Props) {
       description: post.frontmatter.summary,
       type: "article",
       publishedTime: post.frontmatter.publishedAt,
-      images: [{ url: `/api/og?title=${encodeURIComponent(post.frontmatter.title)}`, width: 1200, height: 630, alt: post.frontmatter.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.frontmatter.title,
       description: post.frontmatter.summary,
-      images: [`/api/og?title=${encodeURIComponent(post.frontmatter.title)}`],
     },
   };
 }
