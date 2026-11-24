@@ -1,5 +1,6 @@
 // app/page.tsx
 import Hero from "@/components/sections/Hero";
+import TechMarquee from "@/components/sections/TechMarquee";
 import Experience from "@/components/sections/Experience";
 import { incrementPageView } from "@/lib/analytics";
 import Skills from "@/components/sections/Skills";
@@ -16,6 +17,7 @@ export default async function Home() {
   return (
     <main>
       <Hero />
+      <TechMarquee />
       <FeaturedProjects />
       <LatestPosts posts={latestPosts} />
       <Experience />

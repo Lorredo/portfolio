@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
 
@@ -20,11 +20,6 @@ const ROLES: Role[] = [
   { label: "Full Stack Developer", color: "#6EE7B7" },   // emerald
   { label: "Mobile Developer",     color: "#FCA5A5" },   // coral
   { label: "Problem Solver",       color: "#FCD34D" },   // amber
-];
-
-const TECH_BADGES = [
-  "Go", "Python", "FastAPI", "Flutter", "React Native",
-  "TypeScript", "PostgreSQL", "Redis", "Docker",
 ];
 
 const STATS = [
@@ -86,6 +81,47 @@ function OpenToWorkBadge() {
   );
 }
 
+// Current time in the Philippines, refreshed every 15s. The server render
+// shows only the location, so there's no hydration mismatch.
+const timeFormat = new Intl.DateTimeFormat("en-US", {
+  timeZone: "Asia/Manila",
+  hour: "numeric",
+  minute: "2-digit",
+});
+const subscribeToClock = (onChange: () => void) => {
+  const id = setInterval(onChange, 15_000);
+  return () => clearInterval(id);
+};
+
+function LocalTimeBadge() {
+  const time = useSyncExternalStore(
+    subscribeToClock,
+    () => timeFormat.format(Date.now()),
+    () => null,
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2, duration: 0.5 }}
+      className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5 text-sm text-foreground/55"
+    >
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+        <path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.625 3.5 6.5 3.5 6.5s3.5-3.875 3.5-6.5C9.5 2.567 7.933 1 6 1Z" stroke="currentColor" strokeWidth="1.2" />
+        <circle cx="6" cy="4.5" r="1.2" stroke="currentColor" strokeWidth="1.1" />
+      </svg>
+      Quezon, PH
+      {time && (
+        <>
+          <span className="text-foreground/20">·</span>
+          <time className="font-mono tabular-nums text-foreground/70">{time}</time>
+        </>
+      )}
+    </motion.div>
+  );
+}
+
 function RoleCycler() {
   const [index, setIndex] = useState(0);
 
@@ -121,34 +157,6 @@ function RoleCycler() {
         </motion.span>
       ))}
     </span>
-  );
-}
-
-function TechBadges() {
-  return (
-    <motion.div
-      className="flex flex-wrap gap-2"
-      initial="hidden"
-      animate="visible"
-      variants={{
-        hidden: {},
-        visible: { transition: { staggerChildren: 0.06, delayChildren: 0.9 } },
-      }}
-    >
-      {TECH_BADGES.map((tech) => (
-        <motion.span
-          key={tech}
-          variants={{
-            hidden: { opacity: 0, scale: 0.8 },
-            visible: { opacity: 1, scale: 1 },
-          }}
-          transition={{ duration: 0.35, ease: "backOut" }}
-          className="rounded-md border border-foreground/10 bg-foreground/5 px-3 py-1 text-xs font-mono text-foreground/60 transition-colors hover:border-foreground/25 hover:text-foreground/90"
-        >
-          {tech}
-        </motion.span>
-      ))}
-    </motion.div>
   );
 }
 
@@ -263,9 +271,10 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 flex w-full max-w-4xl flex-col gap-8">
 
-        {/* Badge */}
-        <div>
+        {/* Badges */}
+        <div className="flex flex-wrap items-center gap-3">
           <OpenToWorkBadge />
+          <LocalTimeBadge />
         </div>
 
         {/* Headline */}
@@ -297,9 +306,6 @@ export default function Hero() {
           to the interface. Currently a developer at Bakawan Data Analytics, and building
           FinTrack, a personal finance app for Philippine pay cycles.
         </motion.p>
-
-        {/* Tech badges */}
-        <TechBadges />
 
         {/* CTAs */}
         <motion.div
