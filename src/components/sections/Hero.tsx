@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import heroCutout from "../../../public/hero-cutout.png";
 import profilePhoto from "../../../public/profile.jpg";
 
 
@@ -231,26 +232,28 @@ function GlowOrb({ className }: { className?: string }) {
   );
 }
 
+// Background-removed photo: the page shows through, so it suits both themes.
+// The bottom fades out because the source photo ends at the forearms.
+const PHOTO_FADE = "linear-gradient(to bottom, black 78%, transparent)";
+
 function ProfilePhoto() {
   return (
     <motion.div
-      className="relative hidden w-72 shrink-0 lg:block xl:w-80"
-      initial={{ opacity: 0, y: 24, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ delay: 0.35, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="relative hidden shrink-0 lg:block lg:w-[400px] xl:w-[500px]"
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.35, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Soft glow behind the frame */}
-      <div className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-emerald-500/25 via-transparent to-blue-500/25 blur-2xl" />
-      <div className="relative overflow-hidden rounded-3xl border border-foreground/10 bg-foreground/5 shadow-2xl">
-        <Image
-          src={profilePhoto}
-          alt="Artem Lorredo"
-          sizes="320px"
-          placeholder="blur"
-          fetchPriority="high"
-          className="h-auto w-full"
-        />
-      </div>
+      {/* Backlight, so the black shirt still reads on the dark theme */}
+      <div className="pointer-events-none absolute inset-x-[8%] top-[6%] bottom-[18%] rounded-full bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.35),rgba(59,130,246,0.25)_45%,transparent_70%)] blur-2xl" />
+      <Image
+        src={heroCutout}
+        alt="Artem Lorredo"
+        sizes="(min-width: 1280px) 500px, 400px"
+        fetchPriority="high"
+        className="relative h-auto w-full"
+        style={{ maskImage: PHOTO_FADE, WebkitMaskImage: PHOTO_FADE }}
+      />
     </motion.div>
   );
 }
@@ -306,7 +309,7 @@ export default function Hero() {
       <GlowOrb className="left-[40%] top-[50%] h-[300px] w-[300px] bg-purple-500/10" />
 
       {/* Content: text column, plus the photo on large screens */}
-      <div className="relative z-10 w-full max-w-4xl lg:grid lg:max-w-6xl lg:grid-cols-[1fr_auto] lg:items-center lg:gap-16">
+      <div className="relative z-10 w-full max-w-4xl lg:grid lg:max-w-6xl lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-10">
         <div className="flex flex-col gap-8">
 
           {/* Badges */}
@@ -328,7 +331,7 @@ export default function Hero() {
             <p className="font-mono text-sm uppercase tracking-[0.2em] text-foreground/40">
               Hi, I&apos;m
             </p>
-            <h1 className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl xl:text-8xl">
+            <h1 className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl">
               Artem Lorredo
             </h1>
             <h2 className="text-3xl font-light leading-snug text-foreground/50 sm:text-4xl md:text-5xl">
