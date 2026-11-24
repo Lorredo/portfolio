@@ -36,6 +36,7 @@ const structuredData = {
   "@type": "Person",
   "name": "Artem Lorredo",
   "url": SITE_URL,
+  "image": `${SITE_URL}/profile.jpg`,
   "jobTitle": "Full Stack Developer",
   "sameAs": [
     "https://github.com/Lorredo",
