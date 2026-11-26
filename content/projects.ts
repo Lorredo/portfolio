@@ -74,8 +74,8 @@ I designed and built FinTrack end to end as a solo developer, covering UX, mobil
     coverImage: "/projects/fintrack/cover.png",
     platform: "cross-platform",
     apk: {
-      url: "https://github.com/Lorredo/fintrack/releases/download/v1.6.1/fintrack-1.6.1-release.apk",
-      version: "1.6.1",
+      url: "https://github.com/Lorredo/fintrack/releases/download/v1.7.0/fintrack-1.7.0-release.apk",
+      version: "1.7.0",
       size: "47 MB",
     },
     demoVideo: "/projects/fintrack/demo.mp4",
