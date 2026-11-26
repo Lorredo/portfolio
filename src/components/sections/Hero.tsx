@@ -244,8 +244,9 @@ function ProfilePhoto() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.35, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Backlight, so the black shirt still reads on the dark theme */}
-      <div className="pointer-events-none absolute inset-x-[8%] top-[6%] bottom-[18%] rounded-full bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.35),rgba(59,130,246,0.25)_45%,transparent_70%)] blur-2xl" />
+      {/* Soft neutral + emerald backlight in the site's colours, so the black
+          shirt still separates from the dark theme. Fainter in light mode. */}
+      <div className="pointer-events-none absolute inset-x-[10%] top-[8%] bottom-[20%] rounded-full bg-[radial-gradient(circle_at_50%_40%,rgba(16,185,129,0.14),rgba(16,185,129,0.05)_45%,transparent_70%)] blur-2xl dark:bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,0.10),rgba(16,185,129,0.10)_45%,transparent_70%)]" />
       <Image
         src={heroCutout}
         alt="Artem Lorredo"
@@ -308,7 +309,7 @@ export default function Hero() {
       {/* Background atmosphere */}
       <GridBackground />
       <GlowOrb className="left-[10%] top-[15%] h-[500px] w-[500px] bg-emerald-500/20" />
-      <GlowOrb className="right-[10%] bottom-[15%] h-[400px] w-[400px] bg-blue-500/15" />
+      <GlowOrb className="right-[10%] bottom-[15%] h-[400px] w-[400px] bg-emerald-500/10" />
       <GlowOrb className="left-[40%] top-[50%] h-[300px] w-[300px] bg-purple-500/10" />
 
       {/* Content: text column, plus the photo on large screens */}
