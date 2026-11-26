@@ -2,6 +2,7 @@
 title: "Building Safe to Spend: A Budget Feature for Philippine Pay Cycles"
 summary: "Most budgeting apps think in months. Most Filipino employees get paid on the 15th and 30th. Here's how FinTrack works out what you can safely spend each day until the next payday."
 publishedAt: "2026-11-19"
+updatedAt: "2026-11-26"
 tags: ["Go", "PostgreSQL", "FinTrack", "Mobile"]
 featured: true
 draft: false
@@ -15,31 +16,38 @@ That question is what **Safe to Spend** answers in [FinTrack](/projects/fintrack
 
 ## Step 1: Find the pay period
 
-Everything starts with the current pay period: from the last payday up to, but not including, the next one. Paydays are the 15th and the 30th, except in February, where the second payday is the last day of the month.
+Everything starts with the current pay period: from the last payday up to, but not including, the next one. Paydays are scheduled for the 15th and the 30th, except in February, where the second payday is the last day of the month.
+
+But the money doesn't always come on the scheduled day. When the 15th or 30th falls on a weekend or a holiday, payroll pays on the working day before. In 2026, November 30 is Bonifacio Day, a Monday, so that salary arrives on Friday the 27th. Each payday keeps both dates: the scheduled one, which identifies it, and the actual one, which the period is built from.
 
 ```go
-// semiMonthlyPaydays are the 15th and the 30th, which is the month's last day
-// in February.
-func semiMonthlyPaydays(year int, month time.Month) [2]time.Time {
-	return [2]time.Time{dayOf(year, month, 15), clampedDay(year, month, 30)}
+// Payday is a scheduled payday (the 15th or the 30th) and the day the pay
+// actually comes: the working day before when it falls on a weekend or a
+// holiday.
+type Payday struct {
+	Scheduled time.Time
+	Date      time.Time
+}
+
+func semiMonthlyPaydays(year int, month time.Month) [2]Payday {
+	return [2]Payday{paydayOf(dayOf(year, month, 15)), paydayOf(clampedDay(year, month, 30))}
 }
 
 func CurrentPayPeriod(schedule string, today time.Time) PayPeriod {
 	year, month := today.Year(), today.Month()
 	if schedule != PayScheduleSemiMonthly {
 		// Irregular pay counts to the end of the month.
-		return PayPeriod{Start: dayOf(year, month, 1), NextPayday: dayOf(year, month+1, 1)}
+		first, next := dayOf(year, month, 1), dayOf(year, month+1, 1)
+		return periodBetween(Payday{first, first}, Payday{next, next})
 	}
 	this := semiMonthlyPaydays(year, month)
 	switch {
-	case today.Before(this[0]):
-		previous := semiMonthlyPaydays(year, month-1)
-		return PayPeriod{Start: previous[1], NextPayday: this[0]}
-	case today.Before(this[1]):
-		return PayPeriod{Start: this[0], NextPayday: this[1]}
+	case today.Before(this[0].Date):
+		return periodBetween(semiMonthlyPaydays(year, month-1)[1], this[0])
+	case today.Before(this[1].Date):
+		return periodBetween(this[0], this[1])
 	default:
-		next := semiMonthlyPaydays(year, month+1)
-		return PayPeriod{Start: this[1], NextPayday: next[0]}
+		return periodBetween(this[1], semiMonthlyPaydays(year, month+1)[0])
 	}
 }
 ```
@@ -48,6 +56,13 @@ Two details matter more than they look:
 
 - **On a payday, a new period starts that day.** Getting paid on the 15th should immediately reset your number, not tomorrow.
 - **Dates are calendar days, not timestamps.** The app sends the user's local date, and the server treats midnight UTC as that day. That way the server's own time zone can never shift "today" by one and put you in the wrong pay period.
+- **Records are keyed by the scheduled date.** A recorded salary is stored under the 30th even when it arrived on the 27th. Moving paydays then never orphans pay that was already recorded, and an older app that sends the moved date still finds the right payday.
+
+### Holidays, and pay that comes early anyway
+
+Weekends are easy. Holidays take more work: the fixed ones (like Bonifacio Day and Rizal Day) live in a table, Maundy Thursday and Good Friday are worked out from Easter, and the dates set by each year's proclamation, such as Chinese New Year, go in a small per-year list. Stepping back one day at a time handles chains like New Year's Day, then Last Day of the Year, then Rizal Day, which moves an allowance due on January 1 all the way back to December 29.
+
+Some employers release pay early anyway, before Christmas for example. So in the week before payday, the app offers **"Got paid early?"** Recording the salary then starts the next pay period on the day the money actually came, and deleting that income puts the period back.
 
 ## Step 2: Set aside what's already spoken for
 
@@ -113,7 +128,7 @@ The plan says what you *should* be able to spend. The balance says what you *can
 ## What I learned
 
 - **Design around how people actually live.** The semi-monthly cycle, utang and paluwagan aren't edge cases for Filipino users. They're the main case, and building them into the core calculation is what makes the number trustworthy.
-- **Dates are harder than money.** Most of the bugs I hit were about days, not amounts: February paydays, bills on the 31st, and time zones moving "today".
+- **Dates are harder than money.** Most of the bugs I hit were about days, not amounts: February paydays, paydays moved by holidays, bills on the 31st, and time zones moving "today".
 - **Show your work.** The API returns every intermediate value (pay, bills reserved, savings, days left), not just the final number. That made it far easier to test, and it lets the app explain *why* you can spend ₱500 a day instead of just showing it.
 
 The backend for this has integration tests that run against a real PostgreSQL database, which caught several of those date bugs before they reached the app.
