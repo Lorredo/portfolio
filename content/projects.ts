@@ -47,7 +47,7 @@ export const projects: Project[] = [
     // One line per paragraph: the detail page renders newlines as line breaks
     description: `FinTrack is a cross-platform personal finance app designed around the semi-monthly pay cycle common in the Philippines. Users track income, expenses and transfers across e-wallets and bank accounts such as GCash and Maya. Its core feature, Safe to Spend, calculates a daily spending limit until the next payday (the 15th or 30th, or the working day before when it falls on a weekend or Philippine holiday) from expected salary and allowances, net of upcoming bills, savings and spending to date, and never above the actual wallet balance.
 
-Beyond day-to-day tracking, the app manages recurring bills with reminders, one-tap payday income recording (including pay that arrives early), personal loans (utang) and rotating savings groups (paluwagan), category budgets, and PDF/Excel reporting. Receipts from GCash, Maya or banking apps are read on-device with Google ML Kit to pre-fill transactions, and an offline-first design lets users keep recording without a connection, with changes synced automatically once they're back online.
+Beyond day-to-day tracking, the app manages recurring bills with reminders, one-tap payday income recording (including pay that arrives early), a pay period history that compares each payday with its plan, personal loans (utang) and rotating savings groups (paluwagan), category budgets, and PDF/Excel reporting. Receipts from GCash, Maya or banking apps are read on-device with Google ML Kit to pre-fill transactions, and an offline-first design lets users keep recording without a connection, with changes synced automatically once they're back online.
 
 I designed and built FinTrack end to end as a solo developer, covering UX, mobile, backend, database and deployment. It's a monorepo with a React Native (Expo) client and a Go REST API on serverless PostgreSQL (Neon), containerized with Docker and hosted on Render. The backend follows a layered architecture (routes → handlers → services → data access) with JWT authentication middleware, request validation, and integration tests against a real PostgreSQL database. The mobile app uses a feature-based architecture, a custom design system, and a TanStack Query data layer backed by an encrypted offline cache.`,
     tags: ["Mobile", "Full Stack", "Finance"],
@@ -74,8 +74,8 @@ I designed and built FinTrack end to end as a solo developer, covering UX, mobil
     coverImage: "/projects/fintrack/cover.png",
     platform: "cross-platform",
     apk: {
-      url: "https://github.com/Lorredo/fintrack/releases/download/v1.7.1/fintrack-1.7.1-release.apk",
-      version: "1.7.1",
+      url: "https://github.com/Lorredo/fintrack/releases/download/v1.8.0/fintrack-1.8.0-release.apk",
+      version: "1.8.0",
       size: "47 MB",
     },
     demoVideo: "/projects/fintrack/demo.mp4",
@@ -94,12 +94,13 @@ I designed and built FinTrack end to end as a solo developer, covering UX, mobil
     ],
     highlights: [
       "Payday-aware budgeting: a daily Safe to Spend limit until the next payday, which moves for weekends and Philippine holidays, planned from salary and allowances and capped at real wallet balances",
+      "Pay period history: each past payday compared with its plan (received, bills, savings and spending), worked out from existing transactions with each period's plan saved",
       "Offline-first sync: an encrypted outbox replays changes in order, and client-generated IDs make retries idempotent",
       "On-device receipt scanning: ML Kit turns GCash, Maya and bank screenshots into transactions",
       "Bills and obligations: recurring bills, payday income logging, and utang and paluwagan tracking with local reminders",
       "Ledger and reporting: multi-wallet transfers with fees, category budgets with atomic rebalancing, and PDF/Excel exports",
       "Security: Google sign-in, rotating JWT refresh tokens, PIN and biometric lock, and encrypted local storage",
-      "Platform and data: an Android home-screen widget and 19 versioned PostgreSQL migrations with data backfills",
+      "Platform and data: an Android home-screen widget and 20 versioned PostgreSQL migrations with data backfills",
     ],
   },
 ];
